@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的小宇宙 | Home</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <div class="brand-title">我的小宇宙</div>
+        <div class="brand-subtitle">Words, Codes &amp; Moments</div>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <a href="index.html" class="active">首页 Home</a>
+      <a href="blog/index.html">博客 Blog</a>
+      <a href="gallery/index.html">相册 Gallery</a>
+      <a href="#about">关于 About</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>记录一些不赶时间的事情</h1>
+        <p>这里是我的个人空间，用来写字、写代码、贴照片，也写给未来的自己。</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="blog/index.html">开始阅读博客</a>
+          <a class="btn ghost" href="gallery/index.html">随便看看照片</a>
+        </div>
+      </div>
+      <div class="hero-sidecard">
+        <div class="avatar-circle"></div>
+        <div class="sidecard-text">
+          <p class="sidecard-title">你好，我是某某。</p>
+          <p class="sidecard-body">对世界适度好奇，对细节有点执着。写代码，也写字。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="latest-posts">
+      <div class="section-header">
+        <h2>最新文章 <span>Latest Posts</span></h2>
+        <a href="blog/index.html" class="section-link">全部文章 →</a>
+      </div>
+      <div class="cards" id="home-post-list">
+        <!-- 将由 JavaScript 动态填充最近文章列表 -->
+      </div>
+    </section>
+
+    <section class="section" id="featured-gallery">
+      <div class="section-header">
+        <h2>几张最近喜欢的照片 <span>Recent Moments</span></h2>
+        <a href="gallery/index.html" class="section-link">进入相册 →</a>
+      </div>
+      <div class="gallery-grid home-gallery">
+        <div class="gallery-item placeholder">封面一</div>
+        <div class="gallery-item placeholder">封面二</div>
+        <div class="gallery-item placeholder">封面三</div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="section-header">
+        <h2>关于这个站点 <span>About</span></h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>这个小站托管在 <strong>GitHub Pages</strong> 上，用最简单的静态页面 + 一点点 JavaScript 和样式完成。</p>
+          <p>文章使用 <strong>Markdown</strong> 编写，支持代码高亮、公式（MathJax）、表格、图片和视频嵌入。</p>
+        </div>
+        <div class="about-meta">
+          <p><strong>如何使用？How to use</strong></p>
+          <ol>
+            <li>在 <code>posts/</code> 目录里新建 Markdown 文件。</li>
+            <li>在 <code>posts/index.json</code> 中登记文章信息。</li>
+            <li>提交并推送到 <code>username.github.io</code> 仓库。</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> 我的小宇宙 · Powered by GitHub Pages</p>
+  </footer>
+
+  <script src="assets/js/posts-config.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

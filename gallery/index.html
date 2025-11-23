@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>相册 | 我的小宇宙</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body class="gallery-page">
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <div class="brand-title">我的小宇宙</div>
+        <div class="brand-subtitle">Gallery</div>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <a href="../index.html">首页 Home</a>
+      <a href="../blog/index.html">博客 Blog</a>
+      <a href="index.html" class="active">相册 Gallery</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="section">
+      <div class="section-header">
+        <h1>相册 <span>Gallery</span></h1>
+      </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- 未来可改成从 JSON 读取图片列表，目前先用占位符 -->
+        <div class="gallery-item placeholder">在此放一张你喜欢的照片</div>
+        <div class="gallery-item placeholder">双击可以替换为自己的图片</div>
+        <div class="gallery-item placeholder">支持任意数量的图片</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <img id="lightbox-image" alt="" />
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> 我的小宇宙</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

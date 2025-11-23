@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>博客 | 我的小宇宙</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body class="blog-list-page">
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <div class="brand-title">我的小宇宙</div>
+        <div class="brand-subtitle">Blog</div>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <a href="../index.html">首页 Home</a>
+      <a href="index.html" class="active">博客 Blog</a>
+      <a href="../gallery/index.html">相册 Gallery</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="section">
+      <div class="section-header">
+        <h1>所有文章 <span>All Posts</span></h1>
+      </div>
+      <div id="post-list" class="post-list">
+        <!-- 由 JavaScript 根据 posts/index.json 渲染 -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> 我的小宇宙</p>
+  </footer>
+
+  <script src="../assets/js/posts-config.js"></script>
+  <script src="../assets/js/blog-list.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
