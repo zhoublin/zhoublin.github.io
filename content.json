@@ -15,7 +15,7 @@
       "titleZh": "基于多模态融合学习的安卓恶意软件鲁棒检测",
       "titleEn": "Android Malware Robust Detection Based on Multi-modal Fusion Learning",
       "abstract": "现有安卓恶意软件检测方法容易受到对抗攻击威胁的主要原因在于, 这些恶意软件检测方法都建立在单一模态特征之上, 而以单一模态存在的特征却很容易被攻击者恶意性地操控. \n因此, 为了提高当前安卓恶意软件检测方法可以抵御对抗攻击的鲁棒性, 提出一种基于多模态融合学习的安卓恶意软件鲁棒检测方法——RMDroid, 可以在不影响针对一般性安卓恶意软件检测准确性的基础上, 显著提高其抵御对抗攻击的鲁棒性. ",
-      "formula": "\\mathrm{Attention}(Q,K,V)=\\mathrm{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V",
+      "formula": "",
       "authors": "凌祥, 周伯霖, et al.",
       "pdfLink": "https://www.jos.org.cn/jos/article/abstract/7499",
       "arxivLink": "#",
