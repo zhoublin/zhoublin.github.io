@@ -1,0 +1,7 @@
+{
+  "_readme": "请将下面的字段替换为您的 GitHub 仓库信息。githubOwner 是您的 GitHub 用户名，githubRepo 是仓库名（通常为 username.github.io），branch 通常为 main 或 master。",
+  "githubOwner": "zhoublin",
+  "githubRepo": "zhoublin.github.io",
+  "contentPath": "content.json",
+  "branch": "main"
+}

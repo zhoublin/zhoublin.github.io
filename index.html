@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>周伯霖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;min-height:100%;}
+::selection{background:#d8e3d4;}
+body{background:#f4f1e8;color:#23241e;font-family:'Spectral','Noto Serif SC',Georgia,serif;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+@keyframes eqbar{0%,100%{transform:scaleY(0.35);}50%{transform:scaleY(1);}}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+.katex-display{margin:0!important;}
+.katex{font-size:1.05em;}
+
+/* Nav */
+#nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(244,241,232,0.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(35,36,30,0.10);}
+.logo-btn{display:flex;align-items:baseline;gap:10px;background:none;border:none;cursor:pointer;padding:0;color:inherit;}
+
+/* Home cards hover */
+.home-card{transition:transform .25s ease,box-shadow .25s ease;}
+.home-card:hover{transform:translateY(-4px);box-shadow:var(--hover-shadow,0 18px 40px -22px rgba(0,0,0,0.3));}
+
+/* Admin badge */
+.admin-badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#cf6a4c;background:rgba(207,106,76,0.1);padding:3px 8px;border-radius:4px;border:1px solid rgba(207,106,76,0.3);}
+
+/* Floating edit button */
+#admin-fab{display:none;position:fixed;bottom:28px;right:28px;z-index:90;background:#23241e;color:#f4f1e8;border:none;border-radius:99px;padding:11px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;box-shadow:0 4px 20px rgba(0,0,0,0.35);transition:background .15s;}
+#admin-fab:hover{background:#3a3b30;}
+
+/* Edit overlay + panel */
+#edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:150;backdrop-filter:blur(2px);}
+#edit-overlay.show{display:block;}
+#edit-panel{position:fixed;top:0;right:-560px;width:540px;max-width:100vw;height:100vh;background:#f4f1e8;border-left:1px solid rgba(35,36,30,0.15);z-index:160;overflow-y:auto;transition:right .3s ease;display:flex;flex-direction:column;box-shadow:-12px 0 50px rgba(0,0,0,0.18);}
+#edit-panel.open{right:0;}
+
+/* Login modal */
+#login-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+#login-modal.show{display:flex;}
+.login-box{background:#f4f1e8;border-radius:8px;padding:44px 40px;width:420px;max-width:90vw;box-shadow:0 24px 80px rgba(0,0,0,0.3);}
+
+/* Toast */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:300;pointer-events:none;}
+.toast-msg{background:#23241e;color:#f4f1e8;padding:12px 24px;border-radius:6px;font-family:'Noto Sans SC',sans-serif;font-size:14px;margin-top:8px;opacity:0;transform:translateY(8px);transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.toast-msg.show{opacity:1;transform:translateY(0);}
+.toast-msg.error{background:#b3261e;}
+.toast-msg.success{background:#4f7a5b;}
+
+/* Form styles */
+.ep-header{padding:24px 28px 16px;border-bottom:1px solid rgba(35,36,30,0.12);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.ep-header h3{margin:0;font-size:18px;font-weight:600;}
+.ep-close{background:none;border:none;font-size:22px;color:#9a9784;cursor:pointer;padding:0;line-height:1;}
+.ep-body{padding:24px 28px;flex:1;overflow-y:auto;}
+.ep-footer{padding:16px 28px;border-top:1px solid rgba(35,36,30,0.12);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0;background:#f4f1e8;}
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#6f6c5f;margin-bottom:6px;font-weight:400;}
+.form-input,.form-textarea,.form-select{width:100%;background:#fff;border:1px solid rgba(35,36,30,0.2);border-radius:5px;padding:9px 12px;font-family:'Noto Sans SC',sans-serif;font-size:14px;color:#23241e;transition:border-color .15s;outline:none;}
+.form-input:focus,.form-textarea:focus{border-color:#4f7a5b;}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+.formula-preview{background:#fbfaf4;border:1px solid rgba(35,36,30,0.1);border-radius:5px;padding:14px;text-align:center;min-height:50px;margin-top:8px;}
+.list-item-card{border:1px solid rgba(35,36,30,0.14);border-radius:6px;padding:16px;margin-bottom:12px;background:#faf8f1;position:relative;}
+.list-item-card .remove-btn{position:absolute;top:10px;right:10px;background:none;border:none;color:#cf6a4c;font-size:14px;cursor:pointer;padding:2px 6px;border-radius:3px;}
+.list-item-card .remove-btn:hover{background:rgba(207,106,76,0.1);}
+.section-divider{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#9a9784;text-transform:uppercase;border-bottom:1px solid rgba(35,36,30,0.1);padding-bottom:8px;margin:22px 0 14px;}
+.add-btn{width:100%;border:1px dashed rgba(35,36,30,0.25);border-radius:5px;background:none;padding:10px;color:#6f6c5f;font-family:'Noto Sans SC',sans-serif;font-size:13px;cursor:pointer;transition:all .15s;}
+.add-btn:hover{border-color:#4f7a5b;color:#4f7a5b;background:rgba(79,122,91,0.04);}
+.btn-primary{background:#23241e;color:#f4f1e8;border:none;border-radius:5px;padding:10px 22px;font-family:'Noto Sans SC',sans-serif;font-size:14px;cursor:pointer;transition:background .15s;}
+.btn-primary:hover{background:#3a3b30;}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-secondary{background:none;border:1px solid rgba(35,36,30,0.25);border-radius:5px;padding:10px 20px;font-family:'Noto Sans SC',sans-serif;font-size:14px;cursor:pointer;color:#6f6c5f;transition:all .15s;}
+.btn-secondary:hover{border-color:#23241e;color:#23241e;}
+.edit-section-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(35,36,30,0.06);border:1px solid rgba(35,36,30,0.14);border-radius:4px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.06em;color:#6f6c5f;cursor:pointer;transition:all .15s;margin-bottom:20px;}
+.edit-section-btn:hover{background:#23241e;color:#f4f1e8;border-color:#23241e;}
+.pub-status{font-family:'Noto Sans SC',sans-serif;font-size:12px;color:#9a9784;margin-top:8px;text-align:right;}
+
+/* Grain texture */
+#grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:0.05;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* Code blocks */
+.code-block{background:#1f2a24;border-radius:5px;overflow:hidden;}
+.code-dots{display:flex;gap:7px;padding:14px 18px 10px;}
+.code-dot{width:11px;height:11px;border-radius:50%;display:block;}
+.code-pre{margin:0;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.85;color:#cdd6cf;white-space:pre;padding:0 24px 20px;overflow-x:auto;}
+
+/* Gallery image slots */
+.img-slot{border-radius:5px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:rgba(35,36,30,0.06);}
+.img-slot img{width:100%;height:100%;object-fit:cover;display:block;}
+.img-slot .ph{font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#9a9784;text-align:center;padding:20px;}
+
+/* Music player EQ bars */
+.eq-bar{display:inline-block;width:3px;background:#cf6a4c;border-radius:2px;transform-origin:bottom;margin:0 1px;}
+
+@media(max-width:768px){
+  #nav{padding:14px 20px;}
+  .home-card{grid-column:span 12!important;}
+}
+</style>
+</head>
+<body>
+<div id="grain"></div>
+<nav id="nav"></nav>
+<main id="main" style="min-height:calc(100vh - 70px);"></main>
+<footer id="footer" style="border-top:1px solid rgba(35,36,30,0.12);padding:30px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9784;">© 2026 周伯霖 · Zhou Bolin</span>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a9784;">Made slowly, with care.</span>
+</footer>
+
+<!-- Admin FAB -->
+<button id="admin-fab" onclick="openCurrentEditor()">✎ 编辑此页</button>
+
+<!-- Edit overlay + panel -->
+<div id="edit-overlay" onclick="closeEditor()"></div>
+<div id="edit-panel"></div>
+
+<!-- Login modal -->
+<div id="login-modal">
+  <div class="login-box">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#9a9784;text-transform:uppercase;margin-bottom:8px;">Admin Access</div>
+    <h2 style="font-size:24px;font-weight:600;margin:0 0 6px;">博客管理</h2>
+    <p style="font-family:'Noto Sans SC',sans-serif;font-size:14px;color:#6f6c5f;margin:0 0 28px;line-height:1.7;">请输入您的 GitHub Personal Access Token 以进入编辑模式。<br>前往 <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">GitHub → Settings → Tokens</code> 生成具有 <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;">repo</code> 权限的 Token。</p>
+    <div class="form-group">
+      <label class="form-label">GitHub Token（作为管理密码）</label>
+      <input id="login-token" type="password" class="form-input" placeholder="ghp_xxxxxxxxxxxx" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div id="login-error" style="color:#b3261e;font-family:'Noto Sans SC',sans-serif;font-size:13px;margin-bottom:14px;display:none;"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+      <input type="checkbox" id="login-remember" style="width:15px;height:15px;cursor:pointer;">
+      <label for="login-remember" style="font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#6f6c5f;cursor:pointer;">在此浏览器记住 Token（保存至本地）</label>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-primary" id="login-btn" onclick="doLogin()" style="flex:1;">进入管理</button>
+      <button class="btn-secondary" onclick="cancelLogin()">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+const S = {
+  content: null,
+  config: { githubOwner:'', githubRepo:'', contentPath:'content.json', branch:'main' },
+  view: 'home',
+  adminMode: false,
+  loggedIn: false,
+  token: null,
+  githubUser: '',
+  music: { playing: false, progress: 34, tick: null },
+  vidPlaying: false,
+  currentEditor: null,
+};
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const attr = s => String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+
+async function fetchJSON(url) {
+  try {
+    const r = await fetch(url + '?_=' + Date.now());
+    return r.ok ? r.json() : null;
+  } catch { return null; }
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+async function init() {
+  const [content, config] = await Promise.all([
+    fetchJSON('content.json'),
+    fetchJSON('admin-config.json'),
+  ]);
+  if (content) S.content = content;
+  if (config) Object.assign(S.config, config);
+
+  S.adminMode = new URLSearchParams(location.search).has('admin') || location.hash === '#admin';
+  if (S.adminMode) {
+    const t = sessionStorage.getItem('blog_admin_token') || localStorage.getItem('blog_admin_token_persist');
+    if (t) { S.token = t; S.loggedIn = true; S.githubUser = localStorage.getItem('blog_github_user') || ''; }
+  }
+
+  try {
+    const p = parseFloat(localStorage.getItem('blog_music_progress'));
+    if (!isNaN(p)) S.music.progress = Math.max(0, Math.min(100, p));
+  } catch {}
+
+  renderAll();
+  if (S.adminMode && !S.loggedIn) showLogin();
+}
+
+// ─── Navigation ───────────────────────────────────────────────────────────────
+function go(view) {
+  S.view = view;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  renderAll();
+}
+
+function openCurrentEditor() {
+  const editors = { home:'profile', academic:'academic', engineering:'engineering', interests:'interests', learning:'learning', about:'about' };
+  openEditor(editors[S.view] || 'profile');
+}
+
+// ─── Rendering ────────────────────────────────────────────────────────────────
+function renderAll() {
+  renderNav();
+  renderMain();
+  if (S.loggedIn) { $('admin-fab').style.display = 'flex'; }
+  else { $('admin-fab').style.display = 'none'; }
+  setTimeout(renderMath, 0);
+}
+
+function renderNav() {
+  const c = S.content;
+  const v = S.view;
+  const navItems = [
+    ['home','首页','#23241e'],
+    ['academic','学术','#4f7a5b'],
+    ['engineering','工程','#5a7b97'],
+    ['interests','兴趣','#cf6a4c'],
+    ['learning','学习','#b8902f'],
+    ['about','关于','#7c5d80'],
+  ];
+  $('nav').innerHTML = `
+    <button onclick="go('home')" class="logo-btn">
+      <span style="font-size:22px;font-weight:600;letter-spacing:-0.01em;">${esc(c.profile.name)}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8a877a;text-transform:uppercase;">${esc(c.profile.nameEn)}</span>
+    </button>
+    <div style="display:flex;align-items:center;gap:2px;font-family:'Noto Sans SC',sans-serif;flex-wrap:wrap;">
+      ${navItems.map(([view,label,color])=>`
+        <button onclick="go('${view}')" style="position:relative;background:none;border:none;cursor:pointer;padding:6px 14px;font-size:14.5px;color:${v===view?'#23241e':'#5c5a4f'};font-family:inherit;">
+          ${label}${v===view?`<span style="position:absolute;left:14px;right:14px;bottom:1px;height:1.5px;background:${color};display:block;"></span>`:''}
+        </button>`).join('')}
+      ${S.loggedIn ? `
+        <span class="admin-badge" style="margin-left:6px;">ADMIN${S.githubUser?` · ${esc(S.githubUser)}`:''}</span>
+        <button onclick="logout()" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:13px;color:#cf6a4c;padding:4px 10px;">退出</button>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderMain() {
+  const c = S.content;
+  const builders = { home:buildHome, academic:buildAcademic, engineering:buildEngineering, interests:buildInterests, learning:buildLearning, about:buildAbout };
+  $('main').innerHTML = (builders[S.view]||buildHome)(c);
+  if (S.view === 'interests') setupMusicPlayer();
+}
+
+function renderMath() {
+  if (!window.katex) { setTimeout(renderMath, 150); return; }
+  document.querySelectorAll('[data-tex]:not([data-rendered])').forEach(el => {
+    try {
+      katex.render(el.getAttribute('data-tex'), el, { throwOnError:false, displayMode:el.getAttribute('data-display')==='block' });
+      el.setAttribute('data-rendered','1');
+    } catch(e) {}
+  });
+}
+
+// Edit button helper
+function eb(section) {
+  if (!S.loggedIn) return '';
+  return `<button class="edit-section-btn" onclick="openEditor('${section}')">✎ 编辑</button>`;
+}
+
+// ─── View: Home ───────────────────────────────────────────────────────────────
+function buildHome(c) {
+  const p = c.profile;
+  const cards = [
+    { view:'academic', n:'01', col:7, label:'Academic', zh:'学术', desc:'论文、推导与思考。带 LaTeX 公式的研究笔记。', bg:'#e7efe2', border:'rgba(79,122,91,0.3)', accent:'#4f7a5b', num:'rgba(79,122,91,0.16)', shadow:'rgba(79,122,91,0.55)' },
+    { view:'engineering', n:'02', col:5, label:'Engineering', zh:'工程', desc:'代码、系统与构建。', bg:'#e3ebf1', border:'rgba(90,123,151,0.3)', accent:'#5a7b97', num:'rgba(90,123,151,0.16)', shadow:'rgba(90,123,151,0.55)' },
+    { view:'interests', n:'03', col:4, label:'Interests', zh:'兴趣爱好', desc:'音乐 · 影像 · 风景', bg:'#f4e2d9', border:'rgba(207,106,76,0.32)', accent:'#cf6a4c', num:'rgba(207,106,76,0.18)', shadow:'rgba(207,106,76,0.5)' },
+    { view:'learning', n:'04', col:4, label:'Learning', zh:'学习', desc:'笔记 · 读书 · 积累', bg:'#f0e7cc', border:'rgba(184,144,47,0.32)', accent:'#9c7a1f', num:'rgba(184,144,47,0.2)', shadow:'rgba(184,144,47,0.5)' },
+    { view:'about', n:'05', col:4, label:'About', zh:'关于我', desc:'我是谁,以及如何找到我', bg:'#ece1ed', border:'rgba(124,93,128,0.32)', accent:'#7c5d80', num:'rgba(124,93,128,0.2)', shadow:'rgba(124,93,128,0.5)' },
+  ];
+  return `
+    <div>
+      <section style="position:relative;max-width:1180px;margin:0 auto;padding:96px 40px 56px;">
+        <div style="position:absolute;top:40px;right:60px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#e3ddc4,transparent 70%);filter:blur(20px);opacity:0.7;animation:floaty 9s ease-in-out infinite;pointer-events:none;"></div>
+        <div style="position:absolute;top:200px;right:280px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,#dbe7d6,transparent 70%);filter:blur(24px);opacity:0.6;animation:floaty 11s ease-in-out infinite;pointer-events:none;"></div>
+        <div style="position:relative;">
+          ${S.loggedIn ? eb('profile') : ''}
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.28em;color:#9a9784;text-transform:uppercase;margin-bottom:26px;">${esc(p.subtitle)}</div>
+          <h1 style="font-size:clamp(46px,8.2vw,108px);line-height:0.96;font-weight:500;letter-spacing:-0.025em;margin:0 0 28px;max-width:14ch;">${heroTitle(p.heroTitle)}</h1>
+          <p style="font-family:'Spectral',serif;font-style:italic;font-size:20px;color:#6f6c5f;margin:0 0 22px;">${esc(p.heroSubtitle)}</p>
+          <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:16px;line-height:1.85;color:#4f4d44;max-width:46ch;">${esc(p.bio)}</p>
+        </div>
+      </section>
+      <section style="max-width:1180px;margin:0 auto;padding:24px 40px 100px;">
+        <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:28px;border-bottom:1px solid rgba(35,36,30,0.14);padding-bottom:14px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;color:#9a9784;">目录 / INDEX</span>
+          <span style="font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#9a9784;">五个房间,各自生长</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:18px;">
+          ${cards.map(d=>`
+            <button class="home-card" onclick="go('${d.view}')"
+              style="grid-column:span ${d.col};text-align:left;cursor:pointer;position:relative;overflow:hidden;
+                border:1px solid ${d.border};border-radius:4px;background:${d.bg};
+                padding:${d.col>=5?'34px 34px 30px':'30px 28px'};color:inherit;font-family:inherit;
+                min-height:${d.col>=5?'230px':'210px'};display:flex;flex-direction:column;justify-content:space-between;
+                --hover-shadow:0 18px 40px -22px ${d.shadow};">
+              <span style="position:absolute;top:${d.col>=5?'6px':'2px'};right:${d.col>=5?'18px':'12px'};font-family:'Spectral',serif;font-size:${d.col>=5?'150px':'120px'};font-weight:300;color:${d.num};line-height:1;">${d.n}</span>
+              <div style="position:relative;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:${d.accent};text-transform:uppercase;">${d.label}</span></div>
+              <div style="position:relative;">
+                <h3 style="font-size:${d.col>=5?'38px':'32px'};font-weight:600;margin:0 0 ${d.col>=5?'8px':'6px'};letter-spacing:-0.01em;">${d.zh}</h3>
+                <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:${d.col>=5?'15px':'14px'};color:${d.accent};margin:0;opacity:0.75;">${d.desc}</p>
+                ${d.col>=5?`<span style="font-family:'Noto Sans SC',sans-serif;font-size:13px;color:${d.accent};display:inline-block;margin-top:14px;">进入 →</span>`:''}
+              </div>
+            </button>`).join('')}
+        </div>
+      </section>
+    </div>`;
+}
+
+function heroTitle(t) {
+  const s = esc(t);
+  return s.replace('与', '<span style="font-style:italic;font-weight:400;color:#cf6a4c;">与</span>').replace('<br>', '<br>');
+}
+
+// ─── View: Academic ───────────────────────────────────────────────────────────
+function buildAcademic(c) {
+  const ac = c.academic;
+  const f = ac.featured;
+  return `
+    <div style="max-width:1000px;margin:0 auto;padding:64px 40px 100px;">
+      ${eb('academic')}
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;color:#4f7a5b;text-transform:uppercase;margin-bottom:14px;">01 · Academic</div>
+      <h2 style="font-size:clamp(40px,6vw,68px);font-weight:500;letter-spacing:-0.02em;margin:0 0 14px;">学术</h2>
+      <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:16px;line-height:1.8;color:#52564a;max-width:54ch;margin:0 0 48px;">${esc(ac.description)}</p>
+
+      <article style="border:1px solid rgba(79,122,91,0.28);border-radius:6px;background:#eef4ea;padding:38px;margin-bottom:34px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#4f7a5b;background:#dbe8d5;padding:4px 10px;border-radius:99px;">${esc(f.badge)}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b7c;">${esc(f.date)}</span>
+        </div>
+        <h3 style="font-size:30px;font-weight:600;line-height:1.25;margin:0 0 12px;">${esc(f.titleZh)}<br><span style="font-style:italic;font-weight:400;font-size:22px;color:#6f6c5f;">${esc(f.titleEn)}</span></h3>
+        <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15.5px;line-height:1.85;color:#4f4d44;margin:0 0 26px;">${esc(f.abstract)}</p>
+        <div data-tex="${attr(f.formula)}" data-display="block" style="background:#fbfaf4;border:1px solid rgba(35,36,30,0.1);border-radius:5px;padding:28px 24px;text-align:center;color:#23241e;"></div>
+        <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:14px;color:#7a7868;margin:22px 0 0;">
+          ${esc(f.authors)} ·
+          ${f.pdfLink&&f.pdfLink!='#'?`<a href="${attr(f.pdfLink)}" style="color:#4f7a5b;">[PDF]</a>`:'<span style="color:#b0ae9f;">[PDF]</span>'} &nbsp;
+          ${f.arxivLink&&f.arxivLink!='#'?`<a href="${attr(f.arxivLink)}" style="color:#4f7a5b;">[arXiv]</a>`:'<span style="color:#b0ae9f;">[arXiv]</span>'} &nbsp;
+          ${f.codeLink&&f.codeLink!='#'?`<a href="${attr(f.codeLink)}" style="color:#4f7a5b;">[Code]</a>`:'<span style="color:#b0ae9f;">[Code]</span>'}
+        </p>
+      </article>
+
+      <div style="border-left:2px solid rgba(79,122,91,0.4);padding:4px 0 4px 24px;margin-bottom:40px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8a8b7c;text-transform:uppercase;margin-bottom:10px;">推导笔记 · Derivation</div>
+        <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15px;line-height:1.85;color:#4f4d44;margin:0 0 16px;">${esc(ac.derivation.content)}</p>
+        <div data-tex="${attr(ac.derivation.formula)}" data-display="block" style="padding:8px 0;color:#23241e;"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        ${ac.papers.map(p=>`
+          <div style="display:flex;align-items:baseline;gap:18px;padding:20px 4px;border-top:1px solid rgba(35,36,30,0.12);">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#9a9784;width:54px;flex:none;">${esc(p.year)}</span>
+            <div>
+              <h4 style="font-size:19px;font-weight:600;margin:0 0 4px;">${esc(p.titleZh)} <span style="font-style:italic;font-weight:400;color:#8a8b7c;font-size:15px;">· ${esc(p.venue)}</span></h4>
+              <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:14px;color:#7a7868;margin:0;">${esc(p.description)}</p>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ─── View: Engineering ────────────────────────────────────────────────────────
+function buildEngineering(c) {
+  const en = c.engineering;
+  const f = en.featured;
+  return `
+    <div style="max-width:1000px;margin:0 auto;padding:64px 40px 100px;">
+      ${eb('engineering')}
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;color:#5a7b97;text-transform:uppercase;margin-bottom:14px;">02 · Engineering</div>
+      <h2 style="font-size:clamp(40px,6vw,68px);font-weight:500;letter-spacing:-0.02em;margin:0 0 14px;">工程</h2>
+      <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:16px;line-height:1.8;color:#52564a;max-width:54ch;margin:0 0 48px;">${esc(en.description)}</p>
+
+      <article style="border:1px solid rgba(90,123,151,0.28);border-radius:6px;overflow:hidden;margin-bottom:40px;background:#fbfaf4;">
+        <div style="padding:30px 34px 22px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;">
+            <h3 style="font-size:26px;font-weight:600;margin:0;">${esc(f.name)} <span style="font-style:italic;font-weight:400;font-size:18px;color:#6f6c5f;">— ${esc(f.subtitle)}</span></h3>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5a7b97;">★ ${esc(f.stars)}</span>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+            ${(f.tags||[]).map(t=>`<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#516375;background:#e3ebf1;padding:4px 10px;border-radius:99px;">${esc(t)}</span>`).join('')}
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-dots"><span class="code-dot" style="background:#cf6a4c;"></span><span class="code-dot" style="background:#b8902f;"></span><span class="code-dot" style="background:#4f7a5b;"></span></div>
+          <pre class="code-pre">${esc(f.code)}</pre>
+        </div>
+      </article>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        ${en.projects.map(p=>`
+          <div style="border:1px solid rgba(35,36,30,0.14);border-radius:6px;padding:26px;background:#faf8f1;">
+            <h4 style="font-size:20px;font-weight:600;margin:0 0 8px;">${esc(p.name)}</h4>
+            <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:14px;line-height:1.75;color:#6f6c5f;margin:0 0 16px;">${esc(p.description)}</p>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5a7b97;">${esc(p.tech)}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ─── View: Interests ──────────────────────────────────────────────────────────
+function buildInterests(c) {
+  const it = c.interests;
+  const m = it.music;
+  const total = m.durationSeconds || 228;
+  const cur = Math.floor(total * S.music.progress / 100);
+  const fmt = s => Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
+  const eqState = S.music.playing ? 'running' : 'paused';
+  const eqBar = (dur) => `<span class="eq-bar" style="height:15px;animation:eqbar ${dur}s ease-in-out infinite;animation-play-state:${eqState};"></span>`;
+  const galleryHeights = [230,160,200,170,240,150];
+
+  return `
+    <div style="max-width:1080px;margin:0 auto;padding:64px 40px 100px;">
+      ${eb('interests')}
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;color:#cf6a4c;text-transform:uppercase;margin-bottom:14px;">03 · Interests</div>
+      <h2 style="font-size:clamp(40px,6vw,68px);font-weight:500;letter-spacing:-0.02em;margin:0 0 14px;">兴趣爱好</h2>
+      <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:16px;line-height:1.8;color:#52564a;max-width:54ch;margin:0 0 48px;">${esc(it.description)}</p>
+
+      <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-bottom:44px;">
+        <!-- Music player -->
+        <div style="border:1px solid rgba(207,106,76,0.28);border-radius:8px;background:#f6e6dd;padding:24px;display:flex;gap:20px;align-items:center;">
+          <div style="width:120px;height:120px;flex:none;border-radius:6px;overflow:hidden;background:linear-gradient(135deg,#e8c4ac,#d4a088);box-shadow:0 10px 24px -12px rgba(207,106,76,0.6);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:36px;">♪</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#cf6a4c;text-transform:uppercase;margin-bottom:6px;">${esc(m.label)}</div>
+            <h4 style="font-size:23px;font-weight:600;margin:0 0 2px;">${esc(m.title)}</h4>
+            <p style="font-family:'Spectral',serif;font-style:italic;font-size:15px;color:#9c5a44;margin:0 0 16px;">${esc(m.titleEn)}</p>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <button id="play-btn" onclick="togglePlay()" style="width:46px;height:46px;flex:none;border-radius:50%;border:none;cursor:pointer;background:#cf6a4c;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px -6px rgba(207,106,76,0.8);">
+                ${S.music.playing
+                  ? '<span style="display:flex;gap:4px;"><span style="width:4px;height:15px;background:#fff;display:block;border-radius:1px;"></span><span style="width:4px;height:15px;background:#fff;display:block;border-radius:1px;"></span></span>'
+                  : '<span style="width:0;height:0;border-left:13px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:3px;"></span>'}
+              </button>
+              <div style="flex:1;">
+                <div style="height:4px;background:rgba(207,106,76,0.25);border-radius:99px;overflow:hidden;">
+                  <div id="music-bar" style="height:100%;background:#cf6a4c;border-radius:99px;width:${S.music.progress.toFixed(1)}%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9c5a44;margin-top:6px;">
+                  <span id="cur-time">${fmt(cur)}</span><span>${fmt(total)}</span>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:2px;height:24px;flex:none;">
+                ${eqBar('0.7')}${eqBar('0.9')}${eqBar('0.5')}${eqBar('0.8')}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video -->
+        <div style="position:relative;border-radius:8px;overflow:hidden;min-height:172px;background:linear-gradient(135deg,#3a4a55,#5a7b97 60%,#c8b48f);cursor:pointer;" onclick="toggleVid()">
+          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,26,30,0.55),transparent 55%);"></div>
+          ${S.vidPlaying
+            ? `<div style="position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:7px;"><span style="width:9px;height:9px;border-radius:50%;background:#cf6a4c;display:block;animation:eqbar 1s ease-in-out infinite;"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff;letter-spacing:0.1em;">PLAYING</span></div>`
+            : `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px -8px rgba(0,0,0,0.5);"><span style="width:0;height:0;border-left:18px solid #2a3640;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px;"></span></div>`}
+          <div style="position:absolute;bottom:14px;left:16px;right:16px;color:#fff;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;opacity:0.85;">VIDEO · 4K</div>
+            <h4 style="font-size:20px;font-weight:600;margin:2px 0 0;">${esc(it.video.title)}</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gallery -->
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#9a9784;text-transform:uppercase;margin-bottom:18px;">相册 / Gallery</div>
+      <div style="columns:3;column-gap:14px;">
+        ${it.gallery.map((g,i)=>`
+          <div style="break-inside:avoid;margin-bottom:14px;">
+            <div class="img-slot" style="height:${galleryHeights[i]||200}px;border-radius:5px;">
+              ${g.url ? `<img src="${attr(g.url)}" alt="${attr(g.caption)}" style="width:100%;height:100%;object-fit:cover;">` : `<div class="ph">${esc(g.caption)}</div>`}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function setupMusicPlayer() {
+  // Music player state is maintained in S.music; UI is updated live
+}
+
+function togglePlay() {
+  S.music.playing = !S.music.playing;
+  clearInterval(S.music.tick);
+  if (S.music.playing) {
+    S.music.tick = setInterval(() => {
+      S.music.progress = (S.music.progress + 0.25) % 100;
+      try { localStorage.setItem('blog_music_progress', S.music.progress); } catch {}
+      // Update UI without full re-render
+      const bar = $('music-bar');
+      const ct = $('cur-time');
+      if (bar) bar.style.width = S.music.progress.toFixed(1) + '%';
+      if (ct) {
+        const ac = S.content.interests.music;
+        const total = ac.durationSeconds || 228;
+        const cur = Math.floor(total * S.music.progress / 100);
+        ct.textContent = Math.floor(cur/60) + ':' + String(cur%60).padStart(2,'0');
+      }
+    }, 200);
+  }
+  // Re-render for play/pause icon and EQ state
+  renderMain();
+}
+
+function toggleVid() {
+  S.vidPlaying = !S.vidPlaying;
+  renderMain();
+}
+
+// ─── View: Learning ───────────────────────────────────────────────────────────
+function buildLearning(c) {
+  const lrn = c.learning;
+  return `
+    <div style="max-width:1000px;margin:0 auto;padding:64px 40px 100px;">
+      ${eb('learning')}
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;color:#b8902f;text-transform:uppercase;margin-bottom:14px;">04 · Learning</div>
+      <h2 style="font-size:clamp(40px,6vw,68px);font-weight:500;letter-spacing:-0.02em;margin:0 0 14px;">学习</h2>
+      <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:16px;line-height:1.8;color:#52564a;max-width:54ch;margin:0 0 48px;">${esc(lrn.description)}</p>
+
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#9a9784;text-transform:uppercase;margin-bottom:16px;">在读 / Currently Reading</div>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:48px;">
+        ${lrn.books.map(b=>`
+          <div style="display:flex;align-items:center;gap:18px;">
+            <span style="font-family:'Spectral',serif;font-style:italic;font-size:18px;width:240px;flex:none;">${esc(b.title)} <span style="color:#9a9784;font-size:14px;">· ${esc(b.author)}</span></span>
+            <div style="flex:1;height:6px;background:rgba(184,144,47,0.2);border-radius:99px;overflow:hidden;"><div style="width:${b.progress}%;height:100%;background:#b8902f;"></div></div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9c7a1f;width:42px;text-align:right;">${b.progress}%</span>
+          </div>`).join('')}
+      </div>
+
+      ${lrn.notes.map(n=>`
+        <article style="border:1px solid rgba(184,144,47,0.28);border-radius:6px;background:#f5edd4;padding:34px;margin-bottom:24px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#9c7a1f;text-transform:uppercase;margin-bottom:12px;">笔记 · ${esc(n.date)}</div>
+          <h3 style="font-size:24px;font-weight:600;margin:0 0 14px;">${esc(n.title)}</h3>
+          <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15.5px;line-height:1.9;color:#4f4d44;margin:0 0 20px;">${esc(n.content)}</p>
+          ${n.formula ? `<div data-tex="${attr(n.formula)}" data-display="block" style="background:#fbfaf4;border:1px solid rgba(35,36,30,0.1);border-radius:5px;padding:22px;text-align:center;margin-bottom:20px;"></div>` : ''}
+          ${n.codeNote ? `<p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15.5px;line-height:1.9;color:#4f4d44;margin:0 0 16px;">${esc(n.codeNote)}</p>` : ''}
+          ${n.code ? `<div class="code-block"><pre class="code-pre" style="padding:18px 20px;">${esc(n.code)}</pre></div>` : ''}
+        </article>`).join('')}
+    </div>`;
+}
+
+// ─── View: About ──────────────────────────────────────────────────────────────
+function buildAbout(c) {
+  const ab = c.about;
+  return `
+    <div style="max-width:920px;margin:0 auto;padding:64px 40px 100px;">
+      ${eb('about')}
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;color:#7c5d80;text-transform:uppercase;margin-bottom:14px;">05 · About</div>
+      <h2 style="font-size:clamp(40px,6vw,68px);font-weight:500;letter-spacing:-0.02em;margin:0 0 40px;">关于我</h2>
+      <div style="display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:start;">
+        <div style="position:sticky;top:90px;">
+          <div style="width:200px;height:240px;border-radius:6px;overflow:hidden;background:rgba(124,93,128,0.1);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:48px;">🖼</span>
+          </div>
+        </div>
+        <div>
+          <p style="font-family:'Spectral',serif;font-style:italic;font-size:24px;line-height:1.6;color:#3a3b33;margin:0 0 24px;">${esc(ab.quote)}</p>
+          <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:16px;line-height:1.95;color:#4f4d44;margin:0 0 18px;">${esc(ab.bio1)}</p>
+          <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:16px;line-height:1.95;color:#4f4d44;margin:0 0 32px;">${esc(ab.bio2)}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;">
+            ${(ab.skills||[]).map(sk=>`<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#6d5470;background:#ece1ed;padding:6px 14px;border-radius:99px;">${esc(sk)}</span>`).join('')}
+          </div>
+          <div style="display:flex;gap:24px;border-top:1px solid rgba(35,36,30,0.14);padding-top:24px;">
+            ${ab.email ? `<a href="mailto:${attr(ab.email)}" style="font-family:'Noto Sans SC',sans-serif;font-size:15px;color:#7c5d80;">Email →</a>` : '<span style="font-family:\'Noto Sans SC\',sans-serif;font-size:15px;color:#b0ae9f;">Email →</span>'}
+            ${ab.github ? `<a href="${attr(ab.github)}" style="font-family:'Noto Sans SC',sans-serif;font-size:15px;color:#7c5d80;">GitHub →</a>` : '<span style="font-family:\'Noto Sans SC\',sans-serif;font-size:15px;color:#b0ae9f;">GitHub →</span>'}
+            ${ab.scholar ? `<a href="${attr(ab.scholar)}" style="font-family:'Noto Sans SC',sans-serif;font-size:15px;color:#7c5d80;">Google Scholar →</a>` : '<span style="font-family:\'Noto Sans SC\',sans-serif;font-size:15px;color:#b0ae9f;">Scholar →</span>'}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ─── Admin: Auth ──────────────────────────────────────────────────────────────
+function showLogin() {
+  $('login-modal').classList.add('show');
+  setTimeout(() => { const t = $('login-token'); if (t) t.focus(); }, 100);
+}
+
+function cancelLogin() {
+  $('login-modal').classList.remove('show');
+  if (S.adminMode && !S.loggedIn) {
+    history.replaceState({}, '', location.pathname);
+    S.adminMode = false;
+  }
+}
+
+async function doLogin() {
+  const tokenEl = $('login-token');
+  const errEl = $('login-error');
+  const btn = $('login-btn');
+  const token = tokenEl.value.trim();
+  if (!token) { errEl.textContent = '请输入 Token'; errEl.style.display = 'block'; return; }
+
+  btn.textContent = '验证中...'; btn.disabled = true;
+  errEl.style.display = 'none';
+
+  try {
+    const res = await fetch('https://api.github.com/user', {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (!res.ok) throw new Error('Token 无效或权限不足');
+    const user = await res.json();
+
+    S.token = token;
+    S.loggedIn = true;
+    S.githubUser = user.login;
+
+    sessionStorage.setItem('blog_admin_token', token);
+    localStorage.setItem('blog_github_user', user.login);
+    if ($('login-remember').checked) localStorage.setItem('blog_admin_token_persist', token);
+
+    $('login-modal').classList.remove('show');
+    renderAll();
+    showToast(`欢迎回来，${user.login}！`, 'success');
+  } catch(e) {
+    errEl.textContent = e.message || '登录失败，请检查 Token';
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = '进入管理';
+    btn.disabled = false;
+  }
+}
+
+function logout() {
+  S.token = null; S.loggedIn = false; S.githubUser = ''; S.adminMode = false;
+  sessionStorage.removeItem('blog_admin_token');
+  localStorage.removeItem('blog_admin_token_persist');
+  localStorage.removeItem('blog_github_user');
+  history.replaceState({}, '', location.pathname);
+  renderAll();
+  showToast('已退出管理模式');
+}
+
+// ─── Admin: Editor panel ──────────────────────────────────────────────────────
+function openEditor(section) {
+  S.currentEditor = section;
+  const panel = $('edit-panel');
+  panel.innerHTML = buildEditorForm(section);
+  panel.classList.add('open');
+  $('edit-overlay').classList.add('show');
+}
+
+function closeEditor() {
+  $('edit-panel').classList.remove('open');
+  $('edit-overlay').classList.remove('show');
+  S.currentEditor = null;
+}
+
+function buildEditorForm(section) {
+  const c = S.content;
+  const titles = { profile:'首页 · 个人简介', academic:'学术', engineering:'工程', interests:'兴趣爱好', learning:'学习', about:'关于我' };
+  const body = {
+    profile: buildProfileForm,
+    academic: buildAcademicForm,
+    engineering: buildEngineeringForm,
+    interests: buildInterestsForm,
+    learning: buildLearningForm,
+    about: buildAboutForm,
+  }[section];
+
+  return `
+    <div class="ep-header">
+      <h3>${titles[section] || section}</h3>
+      <button class="ep-close" onclick="closeEditor()">×</button>
+    </div>
+    <div class="ep-body" id="ep-body">
+      ${body ? body(c) : '<p>暂不支持编辑此部分。</p>'}
+    </div>
+    <div class="ep-footer">
+      <div>
+        <button class="btn-secondary" onclick="closeEditor()">取消</button>
+      </div>
+      <div>
+        <button class="btn-primary" id="ep-save-btn" onclick="saveSection('${section}')">保存并发布</button>
+        <div class="pub-status" id="ep-status"></div>
+      </div>
+    </div>`;
+}
+
+// ─── Admin: Form builders ─────────────────────────────────────────────────────
+function buildProfileForm(c) {
+  const p = c.profile;
+  return `
+    <div class="form-group"><label class="form-label">姓名</label><input class="form-input" id="pf-name" value="${esc(p.name)}"></div>
+    <div class="form-group"><label class="form-label">英文名</label><input class="form-input" id="pf-nameEn" value="${esc(p.nameEn)}"></div>
+    <div class="form-group"><label class="form-label">副标题</label><input class="form-input" id="pf-subtitle" value="${esc(p.subtitle)}"></div>
+    <div class="form-group"><label class="form-label">主标题（含「与」字）</label><input class="form-input" id="pf-heroTitle" value="${esc(p.heroTitle)}"></div>
+    <div class="form-group"><label class="form-label">英文副标题</label><input class="form-input" id="pf-heroSubtitle" value="${esc(p.heroSubtitle)}"></div>
+    <div class="form-group"><label class="form-label">个人简介</label><textarea class="form-textarea" id="pf-bio" rows="4">${esc(p.bio)}</textarea></div>`;
+}
+
+function collectProfile() {
+  return {
+    name: val('pf-name'), nameEn: val('pf-nameEn'), subtitle: val('pf-subtitle'),
+    heroTitle: val('pf-heroTitle'), heroSubtitle: val('pf-heroSubtitle'), bio: val('pf-bio'),
+  };
+}
+
+function buildAcademicForm(c) {
+  const ac = c.academic;
+  const f = ac.featured;
+  const d = ac.derivation;
+  return `
+    <div class="form-group"><label class="form-label">板块描述</label><textarea class="form-textarea" id="ac-desc" rows="3">${esc(ac.description)}</textarea></div>
+
+    <div class="section-divider">精选论文</div>
+    <div class="form-group"><label class="form-label">标签（如 FEATURED · NeurIPS '25）</label><input class="form-input" id="ac-f-badge" value="${esc(f.badge)}"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div class="form-group" style="margin:0"><label class="form-label">日期</label><input class="form-input" id="ac-f-date" value="${esc(f.date)}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">标题（中文）</label><input class="form-input" id="ac-f-titleZh" value="${esc(f.titleZh)}"></div>
+    <div class="form-group"><label class="form-label">标题（英文）</label><input class="form-input" id="ac-f-titleEn" value="${esc(f.titleEn)}"></div>
+    <div class="form-group"><label class="form-label">摘要</label><textarea class="form-textarea" id="ac-f-abstract" rows="3">${esc(f.abstract)}</textarea></div>
+    <div class="form-group">
+      <label class="form-label">主要公式（LaTeX）</label>
+      <input class="form-input" id="ac-f-formula" value="${attr(f.formula)}" oninput="previewLatex(this,'ac-f-preview')">
+      <div class="formula-preview" id="ac-f-preview"></div>
+    </div>
+    <div class="form-group"><label class="form-label">作者列表</label><input class="form-input" id="ac-f-authors" value="${esc(f.authors)}"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;">
+      <div><label class="form-label">PDF 链接</label><input class="form-input" id="ac-f-pdf" value="${esc(f.pdfLink)}"></div>
+      <div><label class="form-label">arXiv 链接</label><input class="form-input" id="ac-f-arxiv" value="${esc(f.arxivLink)}"></div>
+      <div><label class="form-label">Code 链接</label><input class="form-input" id="ac-f-code" value="${esc(f.codeLink)}"></div>
+    </div>
+
+    <div class="section-divider">推导笔记</div>
+    <div class="form-group"><label class="form-label">说明文字</label><textarea class="form-textarea" id="ac-d-content" rows="3">${esc(d.content)}</textarea></div>
+    <div class="form-group">
+      <label class="form-label">公式（LaTeX）</label>
+      <input class="form-input" id="ac-d-formula" value="${attr(d.formula)}" oninput="previewLatex(this,'ac-d-preview')">
+      <div class="formula-preview" id="ac-d-preview"></div>
+    </div>
+
+    <div class="section-divider">论文列表</div>
+    <div id="ac-papers-list">
+      ${ac.papers.map((p,i)=>buildPaperItem(p,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addPaper()">＋ 添加论文</button>`;
+}
+
+function buildPaperItem(p, i) {
+  return `<div class="list-item-card" data-paper-id="${attr(p.id||'')}">
+    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除</button>
+    <div style="display:grid;grid-template-columns:80px 1fr 100px;gap:8px;margin-bottom:8px;">
+      <div><label class="form-label">年份</label><input class="form-input" name="year" value="${esc(p.year)}"></div>
+      <div><label class="form-label">标题（中文）</label><input class="form-input" name="titleZh" value="${esc(p.titleZh)}"></div>
+      <div><label class="form-label">期刊/会议</label><input class="form-input" name="venue" value="${esc(p.venue)}"></div>
+    </div>
+    <div class="form-group" style="margin:0"><label class="form-label">简介</label><input class="form-input" name="description" value="${esc(p.description)}"></div>
+  </div>`;
+}
+
+function addPaper() {
+  const list = $('ac-papers-list');
+  const n = list.children.length;
+  const div = document.createElement('div');
+  div.innerHTML = buildPaperItem({ id:'', year:'', titleZh:'', venue:'', description:'' }, n);
+  list.appendChild(div.firstElementChild);
+}
+
+function collectAcademic() {
+  const papers = [];
+  document.querySelectorAll('#ac-papers-list .list-item-card').forEach(card => {
+    papers.push({
+      id: card.dataset.paperId || ('p'+Date.now()+Math.random()),
+      year: card.querySelector('[name="year"]')?.value || '',
+      titleZh: card.querySelector('[name="titleZh"]')?.value || '',
+      venue: card.querySelector('[name="venue"]')?.value || '',
+      description: card.querySelector('[name="description"]')?.value || '',
+    });
+  });
+  return {
+    description: val('ac-desc'),
+    featured: {
+      badge: val('ac-f-badge'), date: val('ac-f-date'),
+      titleZh: val('ac-f-titleZh'), titleEn: val('ac-f-titleEn'),
+      abstract: val('ac-f-abstract'), formula: val('ac-f-formula'),
+      authors: val('ac-f-authors'),
+      pdfLink: val('ac-f-pdf'), arxivLink: val('ac-f-arxiv'), codeLink: val('ac-f-code'),
+    },
+    derivation: { content: val('ac-d-content'), formula: val('ac-d-formula') },
+    papers,
+  };
+}
+
+function buildEngineeringForm(c) {
+  const en = c.engineering;
+  const f = en.featured;
+  return `
+    <div class="form-group"><label class="form-label">板块描述</label><textarea class="form-textarea" id="en-desc" rows="3">${esc(en.description)}</textarea></div>
+
+    <div class="section-divider">精选项目</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
+      <div class="form-group"><label class="form-label">项目名称</label><input class="form-input" id="en-f-name" value="${esc(f.name)}"></div>
+      <div class="form-group"><label class="form-label">Star 数</label><input class="form-input" id="en-f-stars" value="${esc(f.stars)}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">副标题</label><input class="form-input" id="en-f-subtitle" value="${esc(f.subtitle)}"></div>
+    <div class="form-group"><label class="form-label">标签（逗号分隔，如 Python, PyTorch, MIT）</label><input class="form-input" id="en-f-tags" value="${esc((f.tags||[]).join(', '))}"></div>
+    <div class="form-group"><label class="form-label">代码片段</label><textarea class="form-textarea" id="en-f-code" rows="10" style="font-family:'JetBrains Mono',monospace;font-size:13px;">${esc(f.code)}</textarea></div>
+
+    <div class="section-divider">其他项目</div>
+    <div id="en-projects-list">
+      ${en.projects.map((p,i)=>buildProjectItem(p,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addProject()">＋ 添加项目</button>`;
+}
+
+function buildProjectItem(p, i) {
+  return `<div class="list-item-card" data-proj-id="${attr(p.id||'')}">
+    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除</button>
+    <div class="form-group"><label class="form-label">项目名称</label><input class="form-input" name="name" value="${esc(p.name)}"></div>
+    <div class="form-group"><label class="form-label">描述</label><textarea class="form-textarea" name="description" rows="2">${esc(p.description)}</textarea></div>
+    <div class="form-group" style="margin:0"><label class="form-label">技术标签</label><input class="form-input" name="tech" value="${esc(p.tech)}"></div>
+  </div>`;
+}
+
+function addProject() {
+  const list = $('en-projects-list');
+  const div = document.createElement('div');
+  div.innerHTML = buildProjectItem({ id:'', name:'', description:'', tech:'' }, list.children.length);
+  list.appendChild(div.firstElementChild);
+}
+
+function collectEngineering() {
+  const projects = [];
+  document.querySelectorAll('#en-projects-list .list-item-card').forEach(card => {
+    projects.push({
+      id: card.dataset.projId || ('proj'+Date.now()+Math.random()),
+      name: card.querySelector('[name="name"]')?.value || '',
+      description: card.querySelector('[name="description"]')?.value || '',
+      tech: card.querySelector('[name="tech"]')?.value || '',
+    });
+  });
+  return {
+    description: val('en-desc'),
+    featured: {
+      name: val('en-f-name'), subtitle: val('en-f-subtitle'),
+      stars: val('en-f-stars'),
+      tags: val('en-f-tags').split(',').map(t=>t.trim()).filter(Boolean),
+      code: val('en-f-code'),
+    },
+    projects,
+  };
+}
+
+function buildInterestsForm(c) {
+  const it = c.interests;
+  const m = it.music;
+  return `
+    <div class="form-group"><label class="form-label">板块描述</label><textarea class="form-textarea" id="it-desc" rows="3">${esc(it.description)}</textarea></div>
+
+    <div class="section-divider">音乐播放器</div>
+    <div class="form-group"><label class="form-label">曲目名称（中文）</label><input class="form-input" id="it-m-title" value="${esc(m.title)}"></div>
+    <div class="form-group"><label class="form-label">曲目名称（英文）</label><input class="form-input" id="it-m-titleEn" value="${esc(m.titleEn)}"></div>
+    <div class="form-group"><label class="form-label">标签文字</label><input class="form-input" id="it-m-label" value="${esc(m.label)}"></div>
+    <div class="form-group"><label class="form-label">时长（秒）</label><input class="form-input" type="number" id="it-m-dur" value="${m.durationSeconds||228}"></div>
+
+    <div class="section-divider">视频</div>
+    <div class="form-group"><label class="form-label">视频标题</label><input class="form-input" id="it-v-title" value="${esc(it.video.title)}"></div>
+
+    <div class="section-divider">相册（图片建议上传至 GitHub 仓库后填 raw 链接）</div>
+    <div id="it-gallery-list">
+      ${it.gallery.map((g,i)=>buildGalleryItem(g,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addGalleryItem()">＋ 添加图片</button>`;
+}
+
+function buildGalleryItem(g, i) {
+  return `<div class="list-item-card" data-gal-id="${attr(g.id||'')}">
+    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除</button>
+    <div class="form-group"><label class="form-label">说明文字</label><input class="form-input" name="caption" value="${esc(g.caption)}"></div>
+    <div class="form-group" style="margin:0"><label class="form-label">图片 URL（留空显示占位符）</label><input class="form-input" name="url" value="${esc(g.url||'')}"></div>
+  </div>`;
+}
+
+function addGalleryItem() {
+  const list = $('it-gallery-list');
+  const div = document.createElement('div');
+  div.innerHTML = buildGalleryItem({ id:'g'+Date.now(), caption:'', url:'' }, list.children.length);
+  list.appendChild(div.firstElementChild);
+}
+
+function collectInterests() {
+  const gallery = [];
+  document.querySelectorAll('#it-gallery-list .list-item-card').forEach((card,i) => {
+    gallery.push({
+      id: card.dataset.galId || ('g'+i),
+      caption: card.querySelector('[name="caption"]')?.value || '',
+      url: card.querySelector('[name="url"]')?.value || '',
+    });
+  });
+  return {
+    description: val('it-desc'),
+    music: { title: val('it-m-title'), titleEn: val('it-m-titleEn'), label: val('it-m-label'), durationSeconds: parseInt(val('it-m-dur'))||228 },
+    video: { title: val('it-v-title') },
+    gallery,
+  };
+}
+
+function buildLearningForm(c) {
+  const lrn = c.learning;
+  return `
+    <div class="form-group"><label class="form-label">板块描述</label><textarea class="form-textarea" id="lrn-desc" rows="3">${esc(lrn.description)}</textarea></div>
+
+    <div class="section-divider">在读书目</div>
+    <div id="lrn-books-list">
+      ${lrn.books.map((b,i)=>buildBookItem(b,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addBook()">＋ 添加书目</button>
+
+    <div class="section-divider" style="margin-top:24px;">学习笔记</div>
+    <div id="lrn-notes-list">
+      ${lrn.notes.map((n,i)=>buildNoteItem(n,i)).join('')}
+    </div>
+    <button class="add-btn" onclick="addNote()">＋ 添加笔记</button>`;
+}
+
+function buildBookItem(b, i) {
+  return `<div class="list-item-card" data-book-id="${attr(b.id||'')}">
+    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr 80px;gap:8px;">
+      <div><label class="form-label">书名</label><input class="form-input" name="title" value="${esc(b.title)}"></div>
+      <div><label class="form-label">作者</label><input class="form-input" name="author" value="${esc(b.author)}"></div>
+      <div><label class="form-label">进度 %</label><input class="form-input" type="number" name="progress" min="0" max="100" value="${b.progress}"></div>
+    </div>
+  </div>`;
+}
+
+function addBook() {
+  const list = $('lrn-books-list');
+  const div = document.createElement('div');
+  div.innerHTML = buildBookItem({ id:'b'+Date.now(), title:'', author:'', progress:0 }, list.children.length);
+  list.appendChild(div.firstElementChild);
+}
+
+function buildNoteItem(n, i) {
+  return `<div class="list-item-card" data-note-id="${attr(n.id||'')}">
+    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除</button>
+    <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;margin-bottom:8px;">
+      <div><label class="form-label">日期</label><input class="form-input" name="date" value="${esc(n.date)}"></div>
+      <div><label class="form-label">标题</label><input class="form-input" name="title" value="${esc(n.title)}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">正文</label><textarea class="form-textarea" name="content" rows="3">${esc(n.content)}</textarea></div>
+    <div class="form-group">
+      <label class="form-label">公式（LaTeX，可选）</label>
+      <input class="form-input" name="formula" value="${attr(n.formula||'')}" oninput="previewLatex(this,null,this.nextElementSibling)">
+      <div class="formula-preview" style="margin-top:6px;"></div>
+    </div>
+    <div class="form-group"><label class="form-label">代码前说明文字（可选）</label><input class="form-input" name="codeNote" value="${esc(n.codeNote||'')}"></div>
+    <div class="form-group" style="margin:0"><label class="form-label">代码（可选）</label><textarea class="form-textarea" name="code" rows="4" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${esc(n.code||'')}</textarea></div>
+  </div>`;
+}
+
+function addNote() {
+  const list = $('lrn-notes-list');
+  const div = document.createElement('div');
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+  div.innerHTML = buildNoteItem({ id:'n'+Date.now(), date:dateStr, title:'', content:'', formula:'', codeNote:'', code:'' }, list.children.length);
+  list.appendChild(div.firstElementChild);
+}
+
+function collectLearning() {
+  const books = [];
+  document.querySelectorAll('#lrn-books-list .list-item-card').forEach(card => {
+    books.push({
+      id: card.dataset.bookId || ('b'+Date.now()),
+      title: card.querySelector('[name="title"]')?.value || '',
+      author: card.querySelector('[name="author"]')?.value || '',
+      progress: parseInt(card.querySelector('[name="progress"]')?.value)||0,
+    });
+  });
+  const notes = [];
+  document.querySelectorAll('#lrn-notes-list .list-item-card').forEach(card => {
+    notes.push({
+      id: card.dataset.noteId || ('n'+Date.now()),
+      date: card.querySelector('[name="date"]')?.value || '',
+      title: card.querySelector('[name="title"]')?.value || '',
+      content: card.querySelector('[name="content"]')?.value || '',
+      formula: card.querySelector('[name="formula"]')?.value || '',
+      codeNote: card.querySelector('[name="codeNote"]')?.value || '',
+      code: card.querySelector('[name="code"]')?.value || '',
+    });
+  });
+  return { description: val('lrn-desc'), books, notes };
+}
+
+function buildAboutForm(c) {
+  const ab = c.about;
+  return `
+    <div class="form-group"><label class="form-label">引用语</label><textarea class="form-textarea" id="ab-quote" rows="2">${esc(ab.quote)}</textarea></div>
+    <div class="form-group"><label class="form-label">第一段介绍</label><textarea class="form-textarea" id="ab-bio1" rows="4">${esc(ab.bio1)}</textarea></div>
+    <div class="form-group"><label class="form-label">第二段介绍</label><textarea class="form-textarea" id="ab-bio2" rows="4">${esc(ab.bio2)}</textarea></div>
+    <div class="form-group"><label class="form-label">技能标签（逗号分隔）</label><input class="form-input" id="ab-skills" value="${esc((ab.skills||[]).join(', '))}"></div>
+    <div class="section-divider">联系方式</div>
+    <div class="form-group"><label class="form-label">邮箱</label><input class="form-input" id="ab-email" type="email" value="${esc(ab.email||'')}"></div>
+    <div class="form-group"><label class="form-label">GitHub 主页 URL</label><input class="form-input" id="ab-github" value="${esc(ab.github||'')}"></div>
+    <div class="form-group"><label class="form-label">Google Scholar URL</label><input class="form-input" id="ab-scholar" value="${esc(ab.scholar||'')}"></div>`;
+}
+
+function collectAbout() {
+  return {
+    quote: val('ab-quote'),
+    bio1: val('ab-bio1'),
+    bio2: val('ab-bio2'),
+    skills: val('ab-skills').split(',').map(s=>s.trim()).filter(Boolean),
+    email: val('ab-email'),
+    github: val('ab-github'),
+    scholar: val('ab-scholar'),
+  };
+}
+
+// ─── Admin: LaTeX preview ─────────────────────────────────────────────────────
+function previewLatex(input, previewId, previewEl) {
+  const target = previewEl || (previewId ? $(previewId) : null);
+  if (!target || !window.katex) return;
+  try { katex.render(input.value, target, { throwOnError: false, displayMode: true }); }
+  catch(e) { target.textContent = input.value; }
+}
+
+// Initialize formula previews when editor opens
+function initFormulaPreview() {
+  document.querySelectorAll('[oninput*="previewLatex"]').forEach(el => {
+    el.dispatchEvent(new Event('input'));
+  });
+}
+
+// ─── Admin: Save & Publish ────────────────────────────────────────────────────
+async function saveSection(section) {
+  const collectors = {
+    profile: collectProfile, academic: collectAcademic, engineering: collectEngineering,
+    interests: collectInterests, learning: collectLearning, about: collectAbout,
+  };
+  const collect = collectors[section];
+  if (!collect) return;
+
+  const saveBtn = $('ep-save-btn');
+  const status = $('ep-status');
+  saveBtn.disabled = true; saveBtn.textContent = '发布中...';
+  status.textContent = '';
+
+  try {
+    S.content[section] = collect();
+    await publishContent();
+    closeEditor();
+    renderAll();
+    showToast('发布成功！页面将在数秒至数分钟内更新。', 'success');
+  } catch(e) {
+    saveBtn.disabled = false; saveBtn.textContent = '保存并发布';
+    status.textContent = '发布失败：' + (e.message || String(e));
+    status.style.color = '#b3261e';
+    console.error('Publish error:', e);
+  }
+}
+
+async function publishContent() {
+  const { githubOwner: owner, githubRepo: repo, contentPath: path, branch } = S.config;
+  if (!owner || !repo || owner === 'YOUR_GITHUB_USERNAME') {
+    throw new Error('请先配置 admin-config.json 中的 GitHub 仓库信息');
+  }
+  const token = S.token;
+  if (!token) throw new Error('未登录');
+
+  const headers = { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
+
+  // Get current file SHA
+  const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, { headers });
+  const sha = getRes.ok ? (await getRes.json()).sha : undefined;
+
+  // Encode content
+  const jsonStr = JSON.stringify(S.content, null, 2);
+  const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+  // Commit
+  const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({
+      message: `博客内容更新 ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}`,
+      content: encoded,
+      ...(sha ? { sha } : {}),
+      branch,
+    }),
+  });
+
+  if (!putRes.ok) {
+    const err = await putRes.json().catch(() => ({}));
+    throw new Error(err.message || `HTTP ${putRes.status}`);
+  }
+}
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+function val(id) {
+  const el = $(id);
+  return el ? el.value : '';
+}
+
+function showToast(msg, type) {
+  const container = $('toast');
+  const div = document.createElement('div');
+  div.className = 'toast-msg' + (type ? ' ' + type : '');
+  div.textContent = msg;
+  container.appendChild(div);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => div.classList.add('show'));
+  });
+  setTimeout(() => {
+    div.classList.remove('show');
+    setTimeout(() => div.remove(), 300);
+  }, 3500);
+}
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

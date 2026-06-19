@@ -1,0 +1,117 @@
+{
+  "profile": {
+    "name": "周伯霖",
+    "nameEn": "Zhou Bolin",
+    "subtitle": "Personal Journal · 个人志 · est. 2026",
+    "heroTitle": "在理性与诗意之间生长",
+    "heroSubtitle": "Notes from somewhere between logic & poetry.",
+    "bio": "我是周伯霖,一名研究者与造物者。这里收集我的论文与推导、写过的代码与系统、听过的声音与看过的风景,以及那些缓慢积累的笔记。"
+  },
+  "academic": {
+    "description": "我研究表示学习与注意力机制。这里是公开的论文、推导草稿与读论文的随想——大多是写给未来的自己。",
+    "featured": {
+      "badge": "FEATURED · NeurIPS '25",
+      "date": "2025.09",
+      "titleZh": "论注意力的几何结构",
+      "titleEn": "On the Geometry of Attention",
+      "abstract": "我们将缩放点积注意力视为一种在高维流形上的软检索。核心机制可写作下式,其中控制了检索的锐度：",
+      "formula": "\\mathrm{Attention}(Q,K,V)=\\mathrm{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V",
+      "authors": "周伯霖, 周和, et al.",
+      "pdfLink": "#",
+      "arxivLink": "#",
+      "codeLink": "#"
+    },
+    "derivation": {
+      "content": "对一个高斯先验下的线性模型,后验的最大化等价于带正则的最小二乘：",
+      "formula": "\\hat{\\beta}=\\arg\\min_{\\beta}\\;\\lVert y-X\\beta\\rVert_2^2+\\lambda\\lVert\\beta\\rVert_2^2=(X^\\top X+\\lambda I)^{-1}X^\\top y"
+    },
+    "papers": [
+      {
+        "id": "p1",
+        "year": "2024",
+        "titleZh": "稀疏专家路由的稳定性",
+        "venue": "ICML",
+        "description": "为什么 MoE 的负载均衡损失会让训练更平滑。"
+      },
+      {
+        "id": "p2",
+        "year": "2023",
+        "titleZh": "低秩适配的信息论视角",
+        "venue": "Workshop",
+        "description": "LoRA 究竟保留了多少互信息。"
+      }
+    ]
+  },
+  "engineering": {
+    "description": "写代码是另一种写作。这里是我构建过的小工具与系统,以及我喜欢的实现片段。",
+    "featured": {
+      "name": "tinyattn",
+      "subtitle": "一个 80 行的注意力实现",
+      "stars": "1.2k",
+      "tags": ["Python", "PyTorch", "MIT"],
+      "code": "import torch\nimport torch.nn.functional as F\n\ndef attention(q, k, v, mask=None):\n    # scaled dot-product attention\n    d_k = q.size(-1)\n    scores = q @ k.transpose(-2, -1) / d_k ** 0.5\n    if mask is not None:\n        scores = scores.masked_fill(mask == 0, -1e9)\n    w = F.softmax(scores, dim=-1)\n    return w @ v, w"
+    },
+    "projects": [
+      {
+        "id": "proj1",
+        "name": "grainpaper",
+        "description": "一个生成纸质噪点纹理的 CSS 小库,本站的背景就来自它。",
+        "tech": "CSS · 自用"
+      },
+      {
+        "id": "proj2",
+        "name": "notes-cli",
+        "description": "用 Rust 写的终端笔记工具,支持 LaTeX 预览与全文检索。",
+        "tech": "Rust · ★ 340"
+      }
+    ]
+  },
+  "interests": {
+    "description": "工作之外,我录一些声音、拍一些光、走一些路。这里是我生活里柔软的那部分。",
+    "music": {
+      "title": "夜航",
+      "titleEn": "Night Flight",
+      "label": "Now Playing · 自录 demo",
+      "durationSeconds": 228
+    },
+    "video": {
+      "title": "城市漫游 · City Walk"
+    },
+    "gallery": [
+      { "id": "g1", "caption": "京都的雨", "url": "" },
+      { "id": "g2", "caption": "山间晨雾", "url": "" },
+      { "id": "g3", "caption": "工作台一角", "url": "" },
+      { "id": "g4", "caption": "海边的光", "url": "" },
+      { "id": "g5", "caption": "旧书店", "url": "" },
+      { "id": "g6", "caption": "夜色", "url": "" }
+    ]
+  },
+  "learning": {
+    "description": "缓慢但持续地学。这里是在读的书、做过的笔记,以及那些把公式和代码缝在一起的瞬间。",
+    "books": [
+      { "id": "b1", "title": "概率论沉思录", "author": "Jaynes", "progress": 72 },
+      { "id": "b2", "title": "编码", "author": "Petzold", "progress": 40 },
+      { "id": "b3", "title": "瓦尔登湖", "author": "Thoreau", "progress": 15 }
+    ],
+    "notes": [
+      {
+        "id": "n1",
+        "date": "2026.06.12",
+        "title": "熵,以及为什么对数是自然的",
+        "content": "如果要求信息量满足可加性,那么唯一的形式只能是对数。香农熵正是各结果信息量的期望：",
+        "formula": "H(X)=-\\sum_{i} p_i \\log p_i",
+        "codeNote": "用几行代码就能验证均匀分布取得最大熵：",
+        "code": "import numpy as np\nH = lambda p: -(p * np.log2(p)).sum()\nH(np.full(8, 1/8))   # → 3.0 bits"
+      }
+    ]
+  },
+  "about": {
+    "quote": "“在能被计算的与值得被记住的之间,我都想认真对待。”",
+    "bio1": "我是周伯霖,研究者、工程师、业余的录音爱好者。白天我研究表示学习与注意力机制,晚上写一点代码、录一点声音、读一点书。我相信好的工作和好的生活共享同一种品质:克制、诚实、慢一点。",
+    "bio2": "这个博客是我给自己留的一块自留地——没有算法推荐,没有点赞,只有缓慢生长的文字、图像与声音。",
+    "skills": ["表示学习", "PyTorch", "Rust", "Field Recording", "摄影"],
+    "email": "",
+    "github": "",
+    "scholar": ""
+  }
+}
