@@ -5,7 +5,7 @@
     "subtitle": "Personal Journal · 个人志 · est. 2026",
     "heroTitle": "在理性与诗意之间生长",
     "heroSubtitle": "Notes from somewhere between logic & poetry.",
-    "bio": "我是周伯霖,一名研究者与造物者。这里收集我的论文与推导、写过的代码与系统、听过的声音与看过的风景,以及那些缓慢积累的笔记。"
+    "bio": "我是周伯霖,这里收集我写过的代码、听过的声音与看过的风景,以及那些缓慢积累的笔记。"
   },
   "academic": {
     "description": "我研究表示学习与注意力机制。这里是公开的论文、推导草稿与读论文的随想——大多是写给未来的自己。",
@@ -48,7 +48,11 @@
       "name": "tinyattn",
       "subtitle": "一个 80 行的注意力实现",
       "stars": "1.2k",
-      "tags": ["Python", "PyTorch", "MIT"],
+      "tags": [
+        "Python",
+        "PyTorch",
+        "MIT"
+      ],
       "code": "import torch\nimport torch.nn.functional as F\n\ndef attention(q, k, v, mask=None):\n    # scaled dot-product attention\n    d_k = q.size(-1)\n    scores = q @ k.transpose(-2, -1) / d_k ** 0.5\n    if mask is not None:\n        scores = scores.masked_fill(mask == 0, -1e9)\n    w = F.softmax(scores, dim=-1)\n    return w @ v, w"
     },
     "projects": [
@@ -78,20 +82,59 @@
       "title": "城市漫游 · City Walk"
     },
     "gallery": [
-      { "id": "g1", "caption": "京都的雨", "url": "" },
-      { "id": "g2", "caption": "山间晨雾", "url": "" },
-      { "id": "g3", "caption": "工作台一角", "url": "" },
-      { "id": "g4", "caption": "海边的光", "url": "" },
-      { "id": "g5", "caption": "旧书店", "url": "" },
-      { "id": "g6", "caption": "夜色", "url": "" }
+      {
+        "id": "g1",
+        "caption": "京都的雨",
+        "url": ""
+      },
+      {
+        "id": "g2",
+        "caption": "山间晨雾",
+        "url": ""
+      },
+      {
+        "id": "g3",
+        "caption": "工作台一角",
+        "url": ""
+      },
+      {
+        "id": "g4",
+        "caption": "海边的光",
+        "url": ""
+      },
+      {
+        "id": "g5",
+        "caption": "旧书店",
+        "url": ""
+      },
+      {
+        "id": "g6",
+        "caption": "夜色",
+        "url": ""
+      }
     ]
   },
   "learning": {
     "description": "缓慢但持续地学。这里是在读的书、做过的笔记,以及那些把公式和代码缝在一起的瞬间。",
     "books": [
-      { "id": "b1", "title": "概率论沉思录", "author": "Jaynes", "progress": 72 },
-      { "id": "b2", "title": "编码", "author": "Petzold", "progress": 40 },
-      { "id": "b3", "title": "瓦尔登湖", "author": "Thoreau", "progress": 15 }
+      {
+        "id": "b1",
+        "title": "概率论沉思录",
+        "author": "Jaynes",
+        "progress": 72
+      },
+      {
+        "id": "b2",
+        "title": "编码",
+        "author": "Petzold",
+        "progress": 40
+      },
+      {
+        "id": "b3",
+        "title": "瓦尔登湖",
+        "author": "Thoreau",
+        "progress": 15
+      }
     ],
     "notes": [
       {
@@ -109,7 +152,13 @@
     "quote": "“在能被计算的与值得被记住的之间,我都想认真对待。”",
     "bio1": "我是周伯霖,研究者、工程师、业余的录音爱好者。白天我研究表示学习与注意力机制,晚上写一点代码、录一点声音、读一点书。我相信好的工作和好的生活共享同一种品质:克制、诚实、慢一点。",
     "bio2": "这个博客是我给自己留的一块自留地——没有算法推荐,没有点赞,只有缓慢生长的文字、图像与声音。",
-    "skills": ["表示学习", "PyTorch", "Rust", "Field Recording", "摄影"],
+    "skills": [
+      "表示学习",
+      "PyTorch",
+      "Rust",
+      "Field Recording",
+      "摄影"
+    ],
     "email": "",
     "github": "",
     "scholar": ""
