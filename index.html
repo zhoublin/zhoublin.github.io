@@ -350,11 +350,12 @@ function buildAcademic(c) {
         </p>
       </article>
 
-      <div style="border-left:2px solid rgba(79,122,91,0.4);padding:4px 0 4px 24px;margin-bottom:40px;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8a8b7c;text-transform:uppercase;margin-bottom:10px;">推导笔记 · Derivation</div>
-        <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15px;line-height:1.85;color:#4f4d44;margin:0 0 16px;">${esc(ac.derivation.content)}</p>
-        <div data-tex="${attr(ac.derivation.formula)}" data-display="block" style="padding:8px 0;color:#23241e;"></div>
-      </div>
+      ${(ac.derivations||[]).map(d=>`
+        <div style="border-left:2px solid rgba(79,122,91,0.4);padding:4px 0 4px 24px;margin-bottom:40px;">
+          ${d.title?`<div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8a8b7c;text-transform:uppercase;margin-bottom:10px;">${esc(d.title)}</div>`:''}
+          ${d.content?`<p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15px;line-height:1.85;color:#4f4d44;margin:0 0 16px;">${esc(d.content)}</p>`:''}
+          ${d.formula?`<div data-tex="${attr(d.formula)}" data-display="block" style="padding:8px 0;color:#23241e;"></div>`:''}
+        </div>`).join('')}
 
       <div style="display:flex;flex-direction:column;gap:2px;">
         ${ac.papers.map(p=>`
@@ -706,7 +707,6 @@ function collectProfile() {
 function buildAcademicForm(c) {
   const ac = c.academic;
   const f = ac.featured;
-  const d = ac.derivation;
   return `
     <div class="form-group"><label class="form-label">板块描述</label><textarea class="form-textarea" id="ac-desc" rows="3">${esc(ac.description)}</textarea></div>
 
@@ -730,13 +730,11 @@ function buildAcademicForm(c) {
       <div><label class="form-label">Code 链接</label><input class="form-input" id="ac-f-code" value="${esc(f.codeLink)}"></div>
     </div>
 
-    <div class="section-divider">推导笔记</div>
-    <div class="form-group"><label class="form-label">说明文字</label><textarea class="form-textarea" id="ac-d-content" rows="3">${esc(d.content)}</textarea></div>
-    <div class="form-group">
-      <label class="form-label">公式（LaTeX）</label>
-      <input class="form-input" id="ac-d-formula" value="${attr(d.formula)}" oninput="previewLatex(this,'ac-d-preview')">
-      <div class="formula-preview" id="ac-d-preview"></div>
+    <div class="section-divider">推导笔记 / 公式</div>
+    <div id="ac-derivs-list">
+      ${(ac.derivations||[]).map((d,i)=>buildDerivItem(d,i)).join('')}
     </div>
+    <button class="add-btn" onclick="addDeriv()">＋ 添加推导/公式</button>
 
     <div class="section-divider">论文列表</div>
     <div id="ac-papers-list">
@@ -765,6 +763,26 @@ function addPaper() {
   list.appendChild(div.firstElementChild);
 }
 
+function buildDerivItem(d, i) {
+  return `<div class="list-item-card" data-deriv-id="${attr(d.id||'')}">
+    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除</button>
+    <div class="form-group"><label class="form-label">标题（可选）</label><input class="form-input" name="title" value="${esc(d.title||'')}"></div>
+    <div class="form-group"><label class="form-label">说明文字（可选）</label><textarea class="form-textarea" name="content" rows="3">${esc(d.content||'')}</textarea></div>
+    <div class="form-group" style="margin:0">
+      <label class="form-label">公式（LaTeX，可选）</label>
+      <input class="form-input" name="formula" value="${attr(d.formula||'')}" oninput="previewLatex(this,null,this.nextElementSibling)">
+      <div class="formula-preview"></div>
+    </div>
+  </div>`;
+}
+
+function addDeriv() {
+  const list = $('ac-derivs-list');
+  const div = document.createElement('div');
+  div.innerHTML = buildDerivItem({ id:'', title:'', content:'', formula:'' }, list.children.length);
+  list.appendChild(div.firstElementChild);
+}
+
 function collectAcademic() {
   const papers = [];
   document.querySelectorAll('#ac-papers-list .list-item-card').forEach(card => {
@@ -785,7 +803,12 @@ function collectAcademic() {
       authors: val('ac-f-authors'),
       pdfLink: val('ac-f-pdf'), arxivLink: val('ac-f-arxiv'), codeLink: val('ac-f-code'),
     },
-    derivation: { content: val('ac-d-content'), formula: val('ac-d-formula') },
+    derivations: Array.from(document.querySelectorAll('#ac-derivs-list .list-item-card')).map(card => ({
+      id: card.dataset.derivId || ('d'+Date.now()+Math.random()),
+      title: card.querySelector('[name="title"]')?.value || '',
+      content: card.querySelector('[name="content"]')?.value || '',
+      formula: card.querySelector('[name="formula"]')?.value || '',
+    })),
     papers,
   };
 }
