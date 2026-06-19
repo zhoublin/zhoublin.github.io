@@ -72,6 +72,19 @@ button{font-family:inherit;cursor:pointer;}
 .section-divider{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#9a9784;text-transform:uppercase;border-bottom:1px solid rgba(35,36,30,0.1);padding-bottom:8px;margin:22px 0 14px;}
 .add-btn{width:100%;border:1px dashed rgba(35,36,30,0.25);border-radius:5px;background:none;padding:10px;color:#6f6c5f;font-family:'Noto Sans SC',sans-serif;font-size:13px;cursor:pointer;transition:all .15s;}
 .add-btn:hover{border-color:#4f7a5b;color:#4f7a5b;background:rgba(79,122,91,0.04);}
+.add-block-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;align-items:center;}
+.add-block-btn{border:1px dashed rgba(35,36,30,0.22);border-radius:4px;background:none;padding:5px 12px;font-family:'Noto Sans SC',sans-serif;font-size:12px;color:#6f6c5f;cursor:pointer;transition:all .15s;}
+.add-block-btn:hover{border-color:#4f7a5b;color:#4f7a5b;background:rgba(79,122,91,0.04);}
+.blocks-list{margin-bottom:4px;}
+.block-item{border:1px solid rgba(35,36,30,0.12);border-radius:5px;padding:12px 14px;margin-bottom:8px;background:#fff;}
+.block-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.block-type-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:2px 9px;border-radius:99px;}
+.block-type-tag.text{background:#eef0e8;color:#52564a;}
+.block-type-tag.formula{background:#e8ede4;color:#4f7a5b;}
+.block-type-tag.image{background:#ede8ed;color:#7a4f8a;}
+.block-type-tag.video{background:#e4e8f0;color:#4a5a7a;}
+.block-remove{margin-left:auto;background:none;border:none;color:#cf6a4c;font-size:12px;cursor:pointer;padding:2px 7px;border-radius:3px;transition:background .12s;}
+.block-remove:hover{background:rgba(207,106,76,0.1);}
 .btn-primary{background:#23241e;color:#f4f1e8;border:none;border-radius:5px;padding:10px 22px;font-family:'Noto Sans SC',sans-serif;font-size:14px;cursor:pointer;transition:background .15s;}
 .btn-primary:hover{background:#3a3b30;}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
@@ -323,6 +336,27 @@ function heroTitle(t) {
   return s.replace('与', '<span style="font-style:italic;font-weight:400;color:#cf6a4c;">与</span>').replace('<br>', '<br>');
 }
 
+function renderBlock(b) {
+  if(b.type==='text') return `<p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15px;line-height:1.85;color:#4f4d44;margin:0 0 16px;">${esc(b.content||'')}</p>`;
+  if(b.type==='formula') {
+    if(!b.content) return '';
+    return `<div data-tex="${attr(b.content)}" data-display="block" style="background:#fbfaf4;border:1px solid rgba(35,36,30,0.08);border-radius:5px;padding:20px 16px;text-align:center;color:#23241e;margin-bottom:16px;"></div>`;
+  }
+  if(b.type==='image') {
+    if(!b.url) return '';
+    return `<figure style="margin:0 0 20px;"><img src="${attr(b.url)}" alt="${attr(b.caption||'')}" style="width:100%;border-radius:5px;display:block;">${b.caption?`<figcaption style="font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#9a9784;text-align:center;margin-top:8px;">${esc(b.caption)}</figcaption>`:''}</figure>`;
+  }
+  if(b.type==='video') {
+    if(!b.url) return '';
+    const ytMatch = b.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+    const inner = ytMatch
+      ? `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:5px;"><iframe src="https://www.youtube.com/embed/${attr(ytMatch[1])}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div>`
+      : `<video controls style="width:100%;border-radius:5px;display:block;max-height:400px;"><source src="${attr(b.url)}"></video>`;
+    return `<figure style="margin:0 0 20px;">${inner}${b.caption?`<figcaption style="font-family:'Noto Sans SC',sans-serif;font-size:13px;color:#9a9784;text-align:center;margin-top:8px;">${esc(b.caption)}</figcaption>`:''}</figure>`;
+  }
+  return '';
+}
+
 // ─── View: Academic ───────────────────────────────────────────────────────────
 function buildAcademic(c) {
   const ac = c.academic;
@@ -341,7 +375,7 @@ function buildAcademic(c) {
         </div>
         <h3 style="font-size:30px;font-weight:600;line-height:1.25;margin:0 0 12px;">${esc(f.titleZh)}<br><span style="font-style:italic;font-weight:400;font-size:22px;color:#6f6c5f;">${esc(f.titleEn)}</span></h3>
         <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15.5px;line-height:1.85;color:#4f4d44;margin:0 0 26px;">${esc(f.abstract)}</p>
-        <div data-tex="${attr(f.formula)}" data-display="block" style="background:#fbfaf4;border:1px solid rgba(35,36,30,0.1);border-radius:5px;padding:28px 24px;text-align:center;color:#23241e;"></div>
+        ${f.formula?`<div data-tex="${attr(f.formula)}" data-display="block" style="background:#fbfaf4;border:1px solid rgba(35,36,30,0.1);border-radius:5px;padding:28px 24px;text-align:center;color:#23241e;"></div>`:''}
         <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:14px;color:#7a7868;margin:22px 0 0;">
           ${esc(f.authors)} ·
           ${f.pdfLink&&f.pdfLink!='#'?`<a href="${attr(f.pdfLink)}" style="color:#4f7a5b;">[PDF]</a>`:'<span style="color:#b0ae9f;">[PDF]</span>'} &nbsp;
@@ -352,9 +386,8 @@ function buildAcademic(c) {
 
       ${(ac.derivations||[]).map(d=>`
         <div style="border-left:2px solid rgba(79,122,91,0.4);padding:4px 0 4px 24px;margin-bottom:40px;">
-          ${d.title?`<div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8a8b7c;text-transform:uppercase;margin-bottom:10px;">${esc(d.title)}</div>`:''}
-          ${d.content?`<p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15px;line-height:1.85;color:#4f4d44;margin:0 0 16px;">${esc(d.content)}</p>`:''}
-          ${d.formula?`<div data-tex="${attr(d.formula)}" data-display="block" style="padding:8px 0;color:#23241e;"></div>`:''}
+          ${d.title?`<div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#8a8b7c;text-transform:uppercase;margin-bottom:12px;">${esc(d.title)}</div>`:''}
+          ${(d.blocks||[]).map(b=>renderBlock(b)).join('')}
         </div>`).join('')}
 
       <div style="display:flex;flex-direction:column;gap:2px;">
@@ -763,15 +796,47 @@ function addPaper() {
   list.appendChild(div.firstElementChild);
 }
 
+function buildBlockItem(b) {
+  const labels = {text:'文字',formula:'公式',image:'图片',video:'视频'};
+  let fields = '';
+  if(b.type==='text') {
+    fields = `<textarea class="form-textarea" name="content" rows="3">${esc(b.content||'')}</textarea>`;
+  } else if(b.type==='formula') {
+    fields = `<input class="form-input" name="content" value="${attr(b.content||'')}" placeholder="输入 LaTeX，如 E=mc^2" oninput="previewLatex(this,null,this.nextElementSibling)"><div class="formula-preview"></div>`;
+  } else if(b.type==='image') {
+    fields = `<input class="form-input" name="url" value="${attr(b.url||'')}" placeholder="图片 URL（https://...）" style="margin-bottom:6px"><input class="form-input" name="caption" value="${esc(b.caption||'')}" placeholder="图片说明（可选）">`;
+  } else if(b.type==='video') {
+    fields = `<input class="form-input" name="url" value="${attr(b.url||'')}" placeholder="视频 URL（直链 .mp4 或 YouTube 链接）" style="margin-bottom:6px"><input class="form-input" name="caption" value="${esc(b.caption||'')}" placeholder="视频说明（可选）">`;
+  }
+  return `<div class="block-item" data-block-type="${attr(b.type)}">
+    <div class="block-header">
+      <span class="block-type-tag ${attr(b.type)}">${labels[b.type]||b.type}</span>
+      <button class="block-remove" onclick="this.closest('.block-item').remove()">× 删除</button>
+    </div>
+    ${fields}
+  </div>`;
+}
+
+function addBlock(btn, type) {
+  const list = btn.closest('.list-item-card').querySelector('.blocks-list');
+  const div = document.createElement('div');
+  div.innerHTML = buildBlockItem({type, content:'', url:'', caption:''});
+  list.appendChild(div.firstElementChild);
+}
+
 function buildDerivItem(d, i) {
   return `<div class="list-item-card" data-deriv-id="${attr(d.id||'')}">
-    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除</button>
-    <div class="form-group"><label class="form-label">标题（可选）</label><input class="form-input" name="title" value="${esc(d.title||'')}"></div>
-    <div class="form-group"><label class="form-label">说明文字（可选）</label><textarea class="form-textarea" name="content" rows="3">${esc(d.content||'')}</textarea></div>
-    <div class="form-group" style="margin:0">
-      <label class="form-label">公式（LaTeX，可选）</label>
-      <input class="form-input" name="formula" value="${attr(d.formula||'')}" oninput="previewLatex(this,null,this.nextElementSibling)">
-      <div class="formula-preview"></div>
+    <button class="remove-btn" onclick="this.closest('.list-item-card').remove()">删除此卡片</button>
+    <div class="form-group"><label class="form-label">卡片标题（可选）</label><input class="form-input" name="title" value="${esc(d.title||'')}"></div>
+    <div class="blocks-list">
+      ${(d.blocks||[]).map(b=>buildBlockItem(b)).join('')}
+    </div>
+    <div class="add-block-row">
+      <span style="font-family:'Noto Sans SC',sans-serif;font-size:12px;color:#9a9784;line-height:28px;">添加：</span>
+      <button class="add-block-btn" onclick="addBlock(this,'text')">文字</button>
+      <button class="add-block-btn" onclick="addBlock(this,'formula')">公式</button>
+      <button class="add-block-btn" onclick="addBlock(this,'image')">图片</button>
+      <button class="add-block-btn" onclick="addBlock(this,'video')">视频</button>
     </div>
   </div>`;
 }
@@ -779,7 +844,7 @@ function buildDerivItem(d, i) {
 function addDeriv() {
   const list = $('ac-derivs-list');
   const div = document.createElement('div');
-  div.innerHTML = buildDerivItem({ id:'', title:'', content:'', formula:'' }, list.children.length);
+  div.innerHTML = buildDerivItem({ id:'', title:'', blocks:[] }, list.children.length);
   list.appendChild(div.firstElementChild);
 }
 
@@ -803,12 +868,15 @@ function collectAcademic() {
       authors: val('ac-f-authors'),
       pdfLink: val('ac-f-pdf'), arxivLink: val('ac-f-arxiv'), codeLink: val('ac-f-code'),
     },
-    derivations: Array.from(document.querySelectorAll('#ac-derivs-list .list-item-card')).map(card => ({
-      id: card.dataset.derivId || ('d'+Date.now()+Math.random()),
-      title: card.querySelector('[name="title"]')?.value || '',
-      content: card.querySelector('[name="content"]')?.value || '',
-      formula: card.querySelector('[name="formula"]')?.value || '',
-    })),
+    derivations: Array.from(document.querySelectorAll('#ac-derivs-list .list-item-card')).map(card => {
+      const blocks = Array.from(card.querySelectorAll('.block-item')).map(bi => {
+        const type = bi.dataset.blockType;
+        if(type==='text'||type==='formula') return {type, content: bi.querySelector('[name="content"]')?.value||''};
+        if(type==='image'||type==='video') return {type, url: bi.querySelector('[name="url"]')?.value||'', caption: bi.querySelector('[name="caption"]')?.value||''};
+        return null;
+      }).filter(Boolean);
+      return { id: card.dataset.derivId||('d'+Date.now()+Math.random()), title: card.querySelector('[name="title"]')?.value||'', blocks };
+    }),
     papers,
   };
 }
