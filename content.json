@@ -8,37 +8,30 @@
     "bio": "我是周伯霖,这里收集我写过的代码、听过的声音与看过的风景,以及那些缓慢积累的笔记。"
   },
   "academic": {
-    "description": "我研究表示学习与注意力机制。这里是公开的论文、推导草稿与读论文的随想——大多是写给未来的自己。",
+    "description": "我研究对抗性攻击与防御、软件安全、供应链安全",
     "featured": {
-      "badge": "FEATURED · NeurIPS '25",
+      "badge": "FEATURED · 软件学报",
       "date": "2025.09",
-      "titleZh": "论注意力的几何结构",
-      "titleEn": "On the Geometry of Attention",
-      "abstract": "我们将缩放点积注意力视为一种在高维流形上的软检索。核心机制可写作下式,其中控制了检索的锐度：",
+      "titleZh": "基于多模态融合学习的安卓恶意软件鲁棒检测",
+      "titleEn": "Android Malware Robust Detection Based on Multi-modal Fusion Learning",
+      "abstract": "现有安卓恶意软件检测方法容易受到对抗攻击威胁的主要原因在于, 这些恶意软件检测方法都建立在单一模态特征之上, 而以单一模态存在的特征却很容易被攻击者恶意性地操控. \n因此, 为了提高当前安卓恶意软件检测方法可以抵御对抗攻击的鲁棒性, 提出一种基于多模态融合学习的安卓恶意软件鲁棒检测方法——RMDroid, 可以在不影响针对一般性安卓恶意软件检测准确性的基础上, 显著提高其抵御对抗攻击的鲁棒性. ",
       "formula": "\\mathrm{Attention}(Q,K,V)=\\mathrm{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V",
-      "authors": "周伯霖, 周和, et al.",
-      "pdfLink": "#",
+      "authors": "凌祥, 周伯霖, et al.",
+      "pdfLink": "https://www.jos.org.cn/jos/article/abstract/7499",
       "arxivLink": "#",
       "codeLink": "#"
     },
     "derivation": {
-      "content": "对一个高斯先验下的线性模型,后验的最大化等价于带正则的最小二乘：",
-      "formula": "\\hat{\\beta}=\\arg\\min_{\\beta}\\;\\lVert y-X\\beta\\rVert_2^2+\\lambda\\lVert\\beta\\rVert_2^2=(X^\\top X+\\lambda I)^{-1}X^\\top y"
+      "content": "",
+      "formula": ""
     },
     "papers": [
       {
         "id": "p1",
-        "year": "2024",
-        "titleZh": "稀疏专家路由的稳定性",
-        "venue": "ICML",
-        "description": "为什么 MoE 的负载均衡损失会让训练更平滑。"
-      },
-      {
-        "id": "p2",
-        "year": "2023",
-        "titleZh": "低秩适配的信息论视角",
-        "venue": "Workshop",
-        "description": "LoRA 究竟保留了多少互信息。"
+        "year": "2025",
+        "titleZh": "RMDroid: 基于多模态融合学习的安卓恶意软件鲁棒检测",
+        "venue": "软件学报",
+        "description": "鲁棒恶意软件检测方法"
       }
     ]
   },
