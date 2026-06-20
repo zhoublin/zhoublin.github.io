@@ -97,6 +97,10 @@ button{font-family:inherit;cursor:pointer;}
 .md-content video{width:100%;border-radius:5px;display:block;}
 .md-content a{color:#4f7a5b;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px;}
 .md-content .katex-display{margin:14px 0!important;}
+.md-featured h1{font-size:28px;font-weight:600;color:#23241e;margin:0 0 14px;line-height:1.25;}
+.md-featured h2{font-size:22px;font-weight:600;color:#23241e;margin:0 0 14px;line-height:1.25;}
+.md-featured p{font-size:15.5px;margin:0 0 20px;}
+.md-featured .katex-display{background:#fbfaf4;border:1px solid rgba(35,36,30,0.1);border-radius:5px;padding:22px 20px;text-align:center;margin:0 0 20px!important;}
 .btn-primary{background:#23241e;color:#f4f1e8;border:none;border-radius:5px;padding:10px 22px;font-family:'Noto Sans SC',sans-serif;font-size:14px;cursor:pointer;transition:background .15s;}
 .btn-primary:hover{background:#3a3b30;}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
@@ -383,9 +387,7 @@ function buildAcademic(c) {
           <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#4f7a5b;background:#dbe8d5;padding:4px 10px;border-radius:99px;">${esc(f.badge)}</span>
           <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b7c;">${esc(f.date)}</span>
         </div>
-        <h3 style="font-size:30px;font-weight:600;line-height:1.25;margin:0 0 12px;">${esc(f.titleZh)}<br><span style="font-style:italic;font-weight:400;font-size:22px;color:#6f6c5f;">${esc(f.titleEn)}</span></h3>
-        <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:15.5px;line-height:1.85;color:#4f4d44;margin:0 0 26px;">${esc(f.abstract)}</p>
-        ${f.formula?`<div data-tex="${attr(f.formula)}" data-display="block" style="background:#fbfaf4;border:1px solid rgba(35,36,30,0.1);border-radius:5px;padding:28px 24px;text-align:center;color:#23241e;"></div>`:''}
+        <div class="md-content md-featured">${renderMarkdown(f.markdown||'')}</div>
         <p style="font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:14px;color:#7a7868;margin:22px 0 0;">
           ${esc(f.authors)} ·
           ${f.pdfLink&&f.pdfLink!='#'?`<a href="${attr(f.pdfLink)}" style="color:#4f7a5b;">[PDF]</a>`:'<span style="color:#b0ae9f;">[PDF]</span>'} &nbsp;
@@ -755,17 +757,20 @@ function buildAcademicForm(c) {
     <div class="form-group"><label class="form-label">板块描述</label><textarea class="form-textarea" id="ac-desc" rows="3">${esc(ac.description)}</textarea></div>
 
     <div class="section-divider">精选论文</div>
-    <div class="form-group"><label class="form-label">标签（如 FEATURED · NeurIPS '25）</label><input class="form-input" id="ac-f-badge" value="${esc(f.badge)}"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-      <div class="form-group" style="margin:0"><label class="form-label">日期</label><input class="form-input" id="ac-f-date" value="${esc(f.date)}"></div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:14px;">
+      <div class="form-group" style="margin:0"><label class="form-label">标签（如 FEATURED · NeurIPS '25）</label><input class="form-input" id="ac-f-badge" value="${esc(f.badge)}"></div>
+      <div class="form-group" style="margin:0"><label class="form-label">日期</label><input class="form-input" id="ac-f-date" value="${esc(f.date)}" style="width:100px"></div>
     </div>
-    <div class="form-group"><label class="form-label">标题（中文）</label><input class="form-input" id="ac-f-titleZh" value="${esc(f.titleZh)}"></div>
-    <div class="form-group"><label class="form-label">标题（英文）</label><input class="form-input" id="ac-f-titleEn" value="${esc(f.titleEn)}"></div>
-    <div class="form-group"><label class="form-label">摘要</label><textarea class="form-textarea" id="ac-f-abstract" rows="3">${esc(f.abstract)}</textarea></div>
+    <div class="form-group" style="margin-bottom:8px">
+      <label class="form-label" style="display:flex;justify-content:space-between;align-items:center;">
+        <span>内容（Markdown）</span>
+        <span class="md-hint">**粗体** / *斜体* / # 标题 / \`代码\` / $公式$ / $$公式$$</span>
+      </label>
+      <textarea class="form-textarea md-textarea" id="ac-f-markdown" rows="12" oninput="updateFeaturedMdPreview(this)">${esc(f.markdown||'')}</textarea>
+    </div>
     <div class="form-group">
-      <label class="form-label">主要公式（LaTeX）</label>
-      <input class="form-input" id="ac-f-formula" value="${attr(f.formula)}" oninput="previewLatex(this,'ac-f-preview')">
-      <div class="formula-preview" id="ac-f-preview"></div>
+      <label class="form-label">预览</label>
+      <div class="md-preview md-content md-featured" id="ac-f-md-preview">${renderMarkdown(f.markdown||'')}</div>
     </div>
     <div class="form-group"><label class="form-label">作者列表</label><input class="form-input" id="ac-f-authors" value="${esc(f.authors)}"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;">
@@ -842,6 +847,15 @@ function updateMdPreview(ta) {
   }, 280);
 }
 
+let _mdFeaturedTimer = null;
+function updateFeaturedMdPreview(ta) {
+  clearTimeout(_mdFeaturedTimer);
+  _mdFeaturedTimer = setTimeout(() => {
+    const preview = $('ac-f-md-preview');
+    if (preview) preview.innerHTML = renderMarkdown(ta.value);
+  }, 280);
+}
+
 function collectAcademic() {
   const papers = [];
   document.querySelectorAll('#ac-papers-list .list-item-card').forEach(card => {
@@ -857,8 +871,7 @@ function collectAcademic() {
     description: val('ac-desc'),
     featured: {
       badge: val('ac-f-badge'), date: val('ac-f-date'),
-      titleZh: val('ac-f-titleZh'), titleEn: val('ac-f-titleEn'),
-      abstract: val('ac-f-abstract'), formula: val('ac-f-formula'),
+      markdown: val('ac-f-markdown'),
       authors: val('ac-f-authors'),
       pdfLink: val('ac-f-pdf'), arxivLink: val('ac-f-arxiv'), codeLink: val('ac-f-code'),
     },

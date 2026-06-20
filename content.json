@@ -12,10 +12,7 @@
     "featured": {
       "badge": "FEATURED · 软件学报",
       "date": "2025.09",
-      "titleZh": "基于多模态融合学习的安卓恶意软件鲁棒检测",
-      "titleEn": "Android Malware Robust Detection Based on Multi-modal Fusion Learning",
-      "abstract": "现有安卓恶意软件检测方法容易受到对抗攻击威胁的主要原因在于, 这些恶意软件检测方法都建立在单一模态特征之上, 而以单一模态存在的特征却很容易被攻击者恶意性地操控. \n因此, 为了提高当前安卓恶意软件检测方法可以抵御对抗攻击的鲁棒性, 提出一种基于多模态融合学习的安卓恶意软件鲁棒检测方法——RMDroid, 可以在不影响针对一般性安卓恶意软件检测准确性的基础上, 显著提高其抵御对抗攻击的鲁棒性. ",
-      "formula": "",
+      "markdown": "## 基于多模态融合学习的安卓恶意软件鲁棒检测\n\n*Android Malware Robust Detection Based on Multi-modal Fusion Learning*\n\n现有安卓恶意软件检测方法容易受到对抗攻击威胁的主要原因在于, 这些恶意软件检测方法都建立在单一模态特征之上, 而以单一模态存在的特征却很容易被攻击者恶意性地操控. 因此, 为了提高当前安卓恶意软件检测方法可以抵御对抗攻击的鲁棒性, 提出一种基于多模态融合学习的安卓恶意软件鲁棒检测方法——RMDroid, 可以在不影响针对一般性安卓恶意软件检测准确性的基础上, 显著提高其抵御对抗攻击的鲁棒性.",
       "authors": "凌祥, 周伯霖, et al.",
       "pdfLink": "https://www.jos.org.cn/jos/article/abstract/7499",
       "arxivLink": "#",
@@ -38,11 +35,7 @@
       "name": "tinyattn",
       "subtitle": "一个 80 行的注意力实现",
       "stars": "1.2k",
-      "tags": [
-        "Python",
-        "PyTorch",
-        "MIT"
-      ],
+      "tags": ["Python", "PyTorch", "MIT"],
       "code": "import torch\nimport torch.nn.functional as F\n\ndef attention(q, k, v, mask=None):\n    # scaled dot-product attention\n    d_k = q.size(-1)\n    scores = q @ k.transpose(-2, -1) / d_k ** 0.5\n    if mask is not None:\n        scores = scores.masked_fill(mask == 0, -1e9)\n    w = F.softmax(scores, dim=-1)\n    return w @ v, w"
     },
     "projects": [
@@ -72,59 +65,20 @@
       "title": "城市漫游 · City Walk"
     },
     "gallery": [
-      {
-        "id": "g1",
-        "caption": "京都的雨",
-        "url": ""
-      },
-      {
-        "id": "g2",
-        "caption": "山间晨雾",
-        "url": ""
-      },
-      {
-        "id": "g3",
-        "caption": "工作台一角",
-        "url": ""
-      },
-      {
-        "id": "g4",
-        "caption": "海边的光",
-        "url": ""
-      },
-      {
-        "id": "g5",
-        "caption": "旧书店",
-        "url": ""
-      },
-      {
-        "id": "g6",
-        "caption": "夜色",
-        "url": ""
-      }
+      { "id": "g1", "caption": "京都的雨", "url": "" },
+      { "id": "g2", "caption": "山间晨雾", "url": "" },
+      { "id": "g3", "caption": "工作台一角", "url": "" },
+      { "id": "g4", "caption": "海边的光", "url": "" },
+      { "id": "g5", "caption": "旧书店", "url": "" },
+      { "id": "g6", "caption": "夜色", "url": "" }
     ]
   },
   "learning": {
     "description": "缓慢但持续地学。这里是在读的书、做过的笔记,以及那些把公式和代码缝在一起的瞬间。",
     "books": [
-      {
-        "id": "b1",
-        "title": "概率论沉思录",
-        "author": "Jaynes",
-        "progress": 72
-      },
-      {
-        "id": "b2",
-        "title": "编码",
-        "author": "Petzold",
-        "progress": 40
-      },
-      {
-        "id": "b3",
-        "title": "瓦尔登湖",
-        "author": "Thoreau",
-        "progress": 15
-      }
+      { "id": "b1", "title": "概率论沉思录", "author": "Jaynes", "progress": 72 },
+      { "id": "b2", "title": "编码", "author": "Petzold", "progress": 40 },
+      { "id": "b3", "title": "瓦尔登湖", "author": "Thoreau", "progress": 15 }
     ],
     "notes": [
       {
@@ -139,15 +93,10 @@
     ]
   },
   "about": {
-    "quote": "“在能被计算的与值得被记住的之间,我都想认真对待。”",
+    "quote": ""在能被计算的与值得被记住的之间,我都想认真对待。"",
     "bio1": "我是周伯霖，白天研究攻防对抗，晚上写一点代码、读一点书。",
     "bio2": "",
-    "skills": [
-      "Adversarial attack",
-      "AI Security",
-      "Software Security",
-      "PyTorch"
-    ],
+    "skills": ["Adversarial attack", "AI Security", "Software Security", "PyTorch"],
     "email": "",
     "github": "",
     "scholar": ""
