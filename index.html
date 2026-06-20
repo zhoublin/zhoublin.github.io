@@ -277,6 +277,7 @@ function renderNav() {
 
 function renderMain() {
   const c = S.content;
+  if (!c) { $('main').innerHTML = '<div style="padding:80px 40px;color:#9a9784;font-family:\'Noto Sans SC\',sans-serif;">内容加载中…</div>'; return; }
   const builders = { home:buildHome, academic:buildAcademic, engineering:buildEngineering, interests:buildInterests, learning:buildLearning, about:buildAbout };
   $('main').innerHTML = (builders[S.view]||buildHome)(c);
   if (S.view === 'interests') setupMusicPlayer();
